@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+
+    <EditText
+        android:id="@+id/itemName1"
+        android:hint="@+string/engwordhint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    
+
+    <EditText
+        android:id="@+id/itemName2"
+        android:hint="@+string/telwordhint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" >
+    </EditText>
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:onClick="onClick"
+        android:text="@string/add_button" />
+
+</LinearLayout>

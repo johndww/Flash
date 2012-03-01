@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, FlashActivity!</string>
+    <string name="app_name">Flash</string>
+    <string name="welcome">Welcome to Flash App!</string>
+    <string name="button_create_item">Create Item</string>
+    <string name="button_delete_item">Delete Item</string>
+    <string name="button_play">Play</string>
+    <string name="button_add_verb">Add Verb</string>
+    <string name="create_item_title">Create an Item</string>
+    <string name="add_button">Add</string>
+    <string name="item_created">Item Created</string>
+    <string name="eng_play_button">List Word1(Eng)</string>
+    <string name="tel_play_button">List Word2(Tel)</string>
+    <string name="itemTitle1">English:</string>
+    <string name="itemTitle2">Telugu:</string>
+    <string name="engwordhint">English Word</string>
+    <string name="telwordhint">Telugu Word</string>
+    <string name="eng_vmeaning">English Verb Phrase</string>
+    <string name="tel_vmeaning">Telugu Verb Conjugation</string>
+    <string name="search_hint">Search Tel/Eng Word</string>
+    <string name="app_label">Flash</string>
+    <string name="nextword">Next Word</string>
+    <string name="lastword">Last Word</string>
+    <string name="toggleanswer">Toggle Answer</string>
+    <string name="restartgame">Restart Game</string>
+    <string name="game_normal">Normal</string>
+    <string name="game_new50">Newest 50</string>
+    <string name="game_verbs">Verbs Only</string>
+    
+
+</resources>
