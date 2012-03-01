@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#C0C0C0"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/input1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@+id/input1"
+            android:textColor="#000000"
+            android:textSize="30dp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/input2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@+id/input2"
+            android:textColor="#000000"
+            android:textSize="30dp" >
+        </TextView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClick"
+        android:text="@string/nextword" />
+
+    <Button
+        android:id="@+id/showhide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="@string/toggleanswer" />
+
+    <Button
+        android:id="@+id/restart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/showhide"
+        android:layout_alignParentRight="true"
+        android:onClick="onClick"
+        android:text="@string/restartgame" />
+
+    <Button
+        android:id="@+id/last"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/restart"
+        android:onClick="onClick"
+        android:text="@string/lastword" />
+
+    <TextView
+        android:id="@+id/remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@+id/remaining"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="105dp" />
+
+    <RadioGroup
+        android:id="@+id/gameTypeRadio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/next"
+        android:layout_toLeftOf="@+id/restart" >
+
+        <RadioButton
+            android:id="@+id/game_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/game_normal" />
+
+        <RadioButton
+            android:id="@+id/game_new50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/game_new50" />
+
+        <RadioButton
+            android:id="@+id/game_verbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/game_verbs" />
+    </RadioGroup>
+
+</RelativeLayout>

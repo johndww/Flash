@@ -1,0 +1,72 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#C0C0C0"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/EngWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@+id/EngWord"
+            android:textColor="#000000"
+            android:textSize="30dp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/TelWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@+id/TelWord"
+            android:textColor="#000000"
+            android:textSize="30dp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/verbs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+         >
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/verb_eng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/eng_vmeaning"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/verb_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tel_vmeaning"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:focusable="true"
+        android:text="@string/button_add_verb">
+        <requestFocus />
+        </Button>
+
+</LinearLayout>
+</ScrollView>
