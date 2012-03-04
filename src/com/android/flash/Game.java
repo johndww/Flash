@@ -60,7 +60,7 @@ public class Game {
 				//sort by date, most recent gets the lower indicies
 				Collections.sort(myItems, new Comparator<SibOne>() {
 					public int compare(SibOne o1, SibOne o2) {
-						return o1.getDate().compareTo(o2.getDate())*-1;
+						return o1.getDate().compareTo(o2.getDate());
 					}
 				});
 				

@@ -99,7 +99,6 @@ public class FlashActivity extends Activity {
 					tmpSibOne = new SibOne(data.getExtras().getString("item1"));
 					tmpSibTwo = new SibTwo(data.getExtras().getString("item2"));
 					tmpSibOne.updatePair(tmpSibTwo);
-					// tmpSibTwo.updatePair(tmpSibOne);
 
 					myItems.add(tmpSibOne);
 
@@ -110,8 +109,14 @@ public class FlashActivity extends Activity {
 					Toast.makeText(getApplicationContext(),
 							R.string.item_created, Toast.LENGTH_SHORT).show();
 
-					serialize(myItems, "flash_contents");
-
+					//serialize myItems
+					try {
+						FileOutputStream fos;
+						fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
+						Serializer.serialize(myItems, fos);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

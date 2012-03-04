@@ -14,15 +14,16 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int EngWord=0x7f050019;
-        public static final int TelWord=0x7f05001a;
+        public static final int EngWord=0x7f05001a;
+        public static final int TelWord=0x7f05001b;
         public static final int add_button=0x7f050002;
-        public static final int button1=0x7f05001e;
+        public static final int button1=0x7f05001f;
         public static final int create_item_button=0x7f050005;
-        public static final int delete=0x7f050017;
-        public static final int edit=0x7f050016;
+        public static final int date=0x7f050014;
+        public static final int delete=0x7f050018;
+        public static final int edit=0x7f050017;
         public static final int eng_play_button=0x7f050007;
-        public static final int engverb=0x7f050014;
+        public static final int engverb=0x7f050015;
         public static final int gameTypeRadio=0x7f050010;
         public static final int game_new50=0x7f050012;
         public static final int game_normal=0x7f050011;
@@ -39,12 +40,12 @@ public final class R {
         public static final int restart=0x7f05000d;
         public static final int showhide=0x7f05000c;
         public static final int tel_play_button=0x7f050008;
-        public static final int telverb=0x7f050015;
-        public static final int verb_eng=0x7f05001c;
-        public static final int verb_tel=0x7f05001d;
-        public static final int verbs=0x7f05001b;
-        public static final int view_verb=0x7f05001f;
-        public static final int word2_text_view=0x7f050018;
+        public static final int telverb=0x7f050016;
+        public static final int verb_eng=0x7f05001d;
+        public static final int verb_tel=0x7f05001e;
+        public static final int verbs=0x7f05001c;
+        public static final int view_verb=0x7f050020;
+        public static final int word2_text_view=0x7f050019;
         public static final int word_text_view=0x7f050009;
     }
     public static final class layout {

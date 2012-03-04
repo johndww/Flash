@@ -25,6 +25,7 @@ public class PlayRandom extends Activity {
 	private TextView input1;
 	private TextView input2;
 	private TextView remaining;
+	private TextView dateView;
 	private int status = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class PlayRandom extends Activity {
 		input1 = (TextView) findViewById(R.id.input1);
 		input2 = (TextView) findViewById(R.id.input2);
 		remaining = (TextView) findViewById(R.id.remaining);
+		dateView = (TextView) findViewById(R.id.date);
 		
 		if (myGame == null) {
 			//no game made yet, create one
@@ -55,6 +57,8 @@ public class PlayRandom extends Activity {
 			input2.setVisibility(View.GONE);
 			status = 0;
 			input2.setText(word.getPair().getName());
+			dateView.setText(word.getDate().toString());
+			System.out.println(word.getDate().toString());
 			break;
 			
 		case R.id.last:
@@ -64,6 +68,7 @@ public class PlayRandom extends Activity {
 			input2.setVisibility(View.GONE);
 			status = 0;
 			input2.setText(word.getPair().getName());
+			dateView.setText(word.getDate().toString());
 			break;
 		case R.id.restart:
 			//get the type of game to create!
@@ -116,6 +121,7 @@ public class PlayRandom extends Activity {
 		status = 0;
 		input2.setText(word.getPair().getName());
 		remaining.setText("Words Remaining: " + myGame.wordsLeft());
+		dateView.setText(word.getDate().toString());
 		
 	}
 	

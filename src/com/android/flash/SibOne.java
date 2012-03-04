@@ -1,6 +1,7 @@
 package com.android.flash;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.os.Parcel;
@@ -12,12 +13,14 @@ public class SibOne extends Item implements Parcelable, Serializable, Comparable
 	 */
 	private static final long serialVersionUID = 1L;
 	private SibTwo sibTwo;
+	private Calendar cal;
 	private Date date;
 
 	/** constructor to build a SibOne item */
 	public SibOne(String name) {
 		this.name = name;
-		this.date = new Date();
+		cal = Calendar.getInstance();
+		this.date = cal.getTime();
 	}
 
 	public void updatePair(SibTwo sibTwo) {
@@ -33,11 +36,7 @@ public class SibOne extends Item implements Parcelable, Serializable, Comparable
 	}
 	
 	public Date getDate() {
-		if (this.date == null) {
-			//hasn't been initalized yet, return and set todays date
-			this.date = new Date();
-		}
-		return this.date;
+		return date;
 	}
 	
 	/** PARCELABLE STUFF BELOW HERE, PROBABLY NEEDS UPDATING */
