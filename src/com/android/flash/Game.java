@@ -3,7 +3,7 @@ package com.android.flash;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.ListIterator;
+import java.util.Stack;
 
 /**
  * Create a new game that includes every item in the system and shuffles them.
@@ -11,11 +11,9 @@ import java.util.ListIterator;
  * @author johnwright
  */
 public class Game {
-	private ArrayList<SibOne> words;
 	private SibOne sibOne;
-	private ListIterator<SibOne> myItr;
-	private int wordsLeft = 0;
-	private int dir = 1;
+	private Stack<SibOne> remainingWords;
+	private Stack<SibOne> completedWords;
 
 	/**
 	 * Generates a new Game instances
@@ -23,11 +21,8 @@ public class Game {
 	 * @param myItems
 	 */
 	public Game(ArrayList<SibOne> myItems, int type) {
-		if (words == null) {
-			// first time a game has been started,
-			words = new ArrayList<SibOne>();
-
-		}
+		remainingWords = new Stack<SibOne>();
+		completedWords = new Stack<SibOne>();
 		startGame(myItems, type);
 	}
 	
@@ -38,6 +33,9 @@ public class Game {
 	 * @param myItems
 	 */
 	public void startGame(ArrayList<SibOne> myItems, int type) {
+		
+		ArrayList<SibOne> words = new ArrayList<SibOne>();
+		
 		if (myItems != null) {
 			switch (type) {
 			
@@ -106,8 +104,8 @@ public class Game {
 		Collections.shuffle(words);
 
 		// initialize game
-		myItr = words.listIterator();
-		wordsLeft = words.size();
+		remainingWords.addAll(words);
+		words = null;
 
 	}
 
@@ -117,16 +115,12 @@ public class Game {
 	 * @return SibOne
 	 */
 	public SibOne getNext() {
-		if (myItr.hasNext()) {
-			sibOne = myItr.next();
-			if (dir == 0) {
-				//if we were going backwards, need to go forward an extra word
-				sibOne = myItr.next();
-				
-				//set direction to backwards
-				dir = 1;
+		if (!remainingWords.empty()) {
+			//corner case: haven't taken our first item yet, don't try and move sibOne(null) to completedWords
+			if (sibOne != null) {
+				completedWords.push(sibOne);
 			}
-			wordsLeft--;
+			sibOne = remainingWords.pop();
 		}
 		return sibOne;
 	}
@@ -137,21 +131,9 @@ public class Game {
 	 * @return SibOne
 	 */
 	public SibOne getLast() {
-		if (myItr.previousIndex() == 0) {
-			// do nothing, corner case when the last button hit on first item
-		} else {
-			if (myItr.hasPrevious()) {
-				sibOne = myItr.previous();
-				if ((dir == 1) && (myItr.hasPrevious())) {
-					// if we were going forward, need to go backwards an extra
-					// word
-					sibOne = myItr.previous();
-
-					// set direction to backwards
-					dir = 0;
-				}
-				wordsLeft++;
-			}
+		if (!completedWords.empty()) {
+			remainingWords.push(sibOne);
+			sibOne = completedWords.pop();
 		}
 		return sibOne;
 	}
@@ -162,6 +144,6 @@ public class Game {
 	 * @return int
 	 */
 	public int wordsLeft() {
-		return wordsLeft;
+		return remainingWords.size();
 	}
 }

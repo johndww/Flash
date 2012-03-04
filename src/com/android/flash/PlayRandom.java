@@ -58,7 +58,6 @@ public class PlayRandom extends Activity {
 			status = 0;
 			input2.setText(word.getPair().getName());
 			dateView.setText(word.getDate().toString());
-			System.out.println(word.getDate().toString());
 			break;
 			
 		case R.id.last:
