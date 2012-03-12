@@ -12,7 +12,7 @@
     <string name="add_button">Add</string>
     <string name="item_created">Item Created</string>
     <string name="eng_play_button">List Word1(Eng)</string>
-    <string name="tel_play_button">List Word2(Tel)</string>
+    <string name="list_button">List Words</string>
     <string name="itemTitle1">English:</string>
     <string name="itemTitle2">Telugu:</string>
     <string name="engwordhint">English Word</string>
@@ -28,6 +28,11 @@
     <string name="game_normal">Normal</string>
     <string name="game_new50">Newest 50</string>
     <string name="game_verbs">Verbs Only</string>
+    
+    <string name="english">English</string>
+    <string name="telugu">Telugu</string>
+    <string name="date">Date</string>
+    <string name="alphabetical">Alphabetical</string>
     
 
 </resources>

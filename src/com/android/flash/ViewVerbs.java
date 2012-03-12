@@ -10,6 +10,8 @@ import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
+import com.android.flash.sibs.SibOneAdapter;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;

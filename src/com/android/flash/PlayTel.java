@@ -11,6 +11,9 @@ import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.android.flash.sibs.SibTwoAdapter;
+import com.android.flash.sibs.SibTwoComparator;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -152,15 +155,7 @@ public class PlayTel extends ListActivity {
 
 									Toast.makeText(getApplicationContext(),
 											"Edited", Toast.LENGTH_LONG).show();
-									
-									//hack to update the adapter, mimic what we're going to persist
-									//myItemsSorted.get(info.position).setName(((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim());
-									//myItemsSorted.get(info.position).getPair().setName(((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim());
-									
-									//now take the data from our db, update it, and persist it
-									//myItems = deserialize("flash_contents");
-									
-									//get the index of the object in our main arraylist, myItems
+
 									int tmpIndex = myItems.indexOf(myItemsSorted.get(info.position));
 									
 									myItems.get(tmpIndex).setName(((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim());
@@ -168,9 +163,6 @@ public class PlayTel extends ListActivity {
 									
 									myItemsSorted.get(info.position).setName(((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim());
 									myItemsSorted.get(info.position).getPair().setName(((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim());
-									
-									//myItemsSorted = (ArrayList<SibOne>) myItems.clone();
-									//Collections.sort(myItemsSorted, new SibTwoComparator());
 									
 									sibTwoAdapter.notifyDataSetChanged();
 									try {

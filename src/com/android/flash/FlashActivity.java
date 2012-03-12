@@ -15,11 +15,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.android.flash.game.PlayRandom;
+import com.android.flash.listwords.ListWords;
+import com.android.util.Fconstant;
+import com.android.util.Serializer;
 
 public class FlashActivity extends Activity {
 
 	/**
+	 * Home page for the Flash App
 	 * 
 	 */
 	private static final int REQUEST_CREATE = 10;
@@ -56,29 +63,33 @@ public class FlashActivity extends Activity {
 
 		switch (v.getId()) {
 		case R.id.create_item_button:
-			// Toast.makeText(getApplicationContext(),
-			// R.string.button_create_item, Toast.LENGTH_SHORT).show();
 			request_id = REQUEST_CREATE;
 			intent = new Intent(this, CreateItem.class);
 			startActivityForResult(intent, request_id);
 			break;
 		case R.id.play_button:
-			// Toast.makeText(getApplicationContext(), R.string.button_play,
-			// Toast.LENGTH_SHORT).show();
 			intent = new Intent(this, PlayRandom.class);
 			startActivity(intent);
 			break;
-		case R.id.eng_play_button:
-			// Toast.makeText(getApplicationContext(), R.string.button_play,
-			// Toast.LENGTH_SHORT).show();
-			intent = new Intent(this, PlayEng.class);
-			startActivity(intent);
-			break;
-		case R.id.tel_play_button:
-			// Toast.makeText(getApplicationContext(), R.string.button_play,
-			// Toast.LENGTH_SHORT).show();
-			// intent = new Intent(this, PlayTel.class);
-			intent = new Intent(this, PlayTel.class);
+		case R.id.list_button:
+			intent = new Intent(this, ListWords.class);
+			RadioGroup lang = (RadioGroup) findViewById(R.id.lang);
+			RadioGroup sort = (RadioGroup) findViewById(R.id.sort);
+			switch (sort.getCheckedRadioButtonId()) {
+			case R.id.alphabetical:
+				if (lang.getCheckedRadioButtonId() == R.id.english) {
+					intent.putExtra("listtype", Fconstant.LISTTYPE_ENGALPH);
+				} else {
+					intent.putExtra("listtype", Fconstant.LISTTYPE_TELALPH);
+				}
+				break;
+			case R.id.date:
+				if (lang.getCheckedRadioButtonId() == R.id.english) {
+					intent.putExtra("listtype", Fconstant.LISTTYPE_ENGDATE);
+				} else {
+					intent.putExtra("listtype", Fconstant.LISTTYPE_TELDATE);
+				}
+			}
 			startActivity(intent);
 			break;
 		}

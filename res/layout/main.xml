@@ -26,19 +26,59 @@
         android:text="@string/button_play" />
 
     <Button
-        android:id="@+id/eng_play_button"
+        android:id="@+id/list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:onClick="onClick"
-        android:text="@string/eng_play_button" />
+        android:text="@string/list_button" />
 
-    <Button
-        android:id="@+id/tel_play_button"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip"
-        android:onClick="onClick"
-        android:text="@string/tel_play_button" />
+        android:orientation="vertical" >
+
+        <RadioGroup
+            android:id="@+id/lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/english"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/english" />
+
+            <RadioButton
+                android:id="@+id/telugu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telugu" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="29dp" >
+
+            <RadioButton
+                android:id="@+id/alphabetical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/alphabetical" />
+
+            <RadioButton
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date" />
+        </RadioGroup>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -24,9 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateItem" />
-        <activity android:name=".PlayRandom" />
-        <activity android:name=".PlayEng" />
-        <activity android:name=".PlayTel" />
+        <activity android:name=".game.PlayRandom" />
+        <activity android:name=".listwords.ListWords" />
         <activity android:name=".ViewWord" />
         <activity android:name=".ViewVerbs" />
     </application>
