@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.android.flash.game.PlayRandom;
 import com.android.flash.listwords.ListWords;
-import com.android.util.Fconstant;
-import com.android.util.Serializer;
+import com.android.flash.util.Fconstant;
+import com.android.flash.util.Serializer;
 
 public class FlashActivity extends Activity {
 

@@ -29,8 +29,8 @@ import com.android.flash.ViewWord;
 import com.android.flash.sibs.SibOneAdapter;
 import com.android.flash.sibs.SibTwoAdapter;
 import com.android.flash.sibs.SibTwoComparator;
-import com.android.util.Fconstant;
-import com.android.util.Serializer;
+import com.android.flash.util.Fconstant;
+import com.android.flash.util.Serializer;
 
 public class ListWords extends ListActivity {
 	ArrayList<SibOne> myItems;
