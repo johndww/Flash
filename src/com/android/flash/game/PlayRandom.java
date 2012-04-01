@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -44,10 +45,10 @@ public class PlayRandom extends Activity {
 		
 		if (myGame == null) {
 			//no game made yet, create one
-			restartGame(1, Fconstant.SIBONE);
+			restartGame(1);
 		} else {
 			//just initialize the page with the current game
-			restartGame(0, Fconstant.SIBONE);
+			restartGame(0);
 		}
 		
 		super.onCreate(savedInstanceState);
@@ -68,20 +69,16 @@ public class PlayRandom extends Activity {
 			//get the type of game to create!
 			RadioGroup gameSelected = (RadioGroup) findViewById(R.id.gameTypeRadio);
 			
-			//set language
-			int lang = ((RadioGroup) findViewById(R.id.langRadio)).getCheckedRadioButtonId();
-			lang = (lang == R.id.lang_eng) ? Fconstant.SIBONE : Fconstant.SIBTWO;
-			
 			switch (gameSelected.getCheckedRadioButtonId()) {
 			case R.id.game_normal:
 				//restart random shuffle game
-				restartGame(1, lang);
+				restartGame(1);
 				break;
 			case R.id.game_new50:
-				restartGame(2, lang);
+				restartGame(2);
 				break;
 			case R.id.game_verbs:
-				restartGame(3, lang);
+				restartGame(3);
 				break;
 			}
 			break;
@@ -126,9 +123,15 @@ public class PlayRandom extends Activity {
 	 * 
 	 * @param type
 	 */
-	private void restartGame(int type, int lang) {
+	private void restartGame(int type) {
+		//set language
+		int lang = ((RadioGroup) findViewById(R.id.langRadio)).getCheckedRadioButtonId();
+		lang = (lang == R.id.lang_eng) ? Fconstant.SIBONE : Fconstant.SIBTWO;
+		
+		boolean verbs = ((CheckBox)findViewById(R.id.verbs)).isChecked();
+		
 		if (type != 0) {
-			myGame = new Game(deserialize("flash_contents"), type, lang);
+			myGame = new Game(deserialize("flash_contents"), type, lang, verbs);
 		}
 		
 		//initialize the textfields

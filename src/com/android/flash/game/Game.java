@@ -23,10 +23,10 @@ public class Game {
 	 * 
 	 * @param myItems
 	 */
-	public Game(ArrayList<SibOne> myItems, int type, int lang) {
+	public Game(ArrayList<SibOne> myItems, int type, int lang, boolean verbs) {
 		remainingWords = new Stack<SibOne>();
 		completedWords = new Stack<SibOne>();
-		startGame(myItems, type, lang);
+		startGame(myItems, type, lang, verbs);
 	}
 	
 	
@@ -35,7 +35,7 @@ public class Game {
 	 * 
 	 * @param myItems
 	 */
-	public void startGame(ArrayList<SibOne> myItems, int type, int lang) {
+	public void startGame(ArrayList<SibOne> myItems, int type, int lang, boolean useVerbs) {
 		
 		ArrayList<SibOne> words = new ArrayList<SibOne>();
 		this.lang = lang;
@@ -47,7 +47,7 @@ public class Game {
 			case 1:
 				for (SibOne tmpSibOne : myItems) {
 					words.add(tmpSibOne);
-					if (tmpSibOne.getPair().getVerbs() != null) {
+					if ((tmpSibOne.getPair().getVerbs() != null) && (useVerbs)) {
 						for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
 							// add each verb sibone to words as well (for each eng
 							// word)
@@ -75,7 +75,7 @@ public class Game {
 					}
 					count++;
  					words.add(tmpSibOne);
-					if (tmpSibOne.getPair().getVerbs() != null) {
+					if ((tmpSibOne.getPair().getVerbs() != null) && (useVerbs)) {
 						for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
 							// add each verb sibone to words as well (for each eng
 							// word)

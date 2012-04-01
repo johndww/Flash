@@ -126,13 +126,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/itemTitle1" />
+            android:text="@string/english" />
 
         <RadioButton
             android:id="@+id/lang_tel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/itemTitle2" />
+            android:text="@string/telugu" />
     </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/verbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/restart"
+        android:layout_alignBottom="@+id/restart"
+        android:layout_alignParentLeft="true"
+        android:text="@string/verbs" />
 
 </RelativeLayout>

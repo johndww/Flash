@@ -29,10 +29,11 @@
     <string name="game_new50">Newest 50</string>
     <string name="game_verbs">Verbs Only</string>
     
-    <string name="english">English</string>
-    <string name="telugu">Telugu</string>
+    <string name="english">Eng</string>
+    <string name="telugu">Tel</string>
     <string name="date">Date</string>
     <string name="alphabetical">Alphabetical</string>
+    <string name="verbs">Verbs</string>
     
     
 

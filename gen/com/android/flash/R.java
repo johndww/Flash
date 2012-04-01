@@ -14,17 +14,17 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int EngWord=0x7f050021;
-        public static final int TelWord=0x7f050022;
+        public static final int EngWord=0x7f050022;
+        public static final int TelWord=0x7f050023;
         public static final int add_button=0x7f050002;
         public static final int alphabetical=0x7f05000c;
         public static final int button1=0x7f050026;
         public static final int create_item_button=0x7f050005;
         public static final int date=0x7f05000d;
-        public static final int delete=0x7f05001f;
-        public static final int edit=0x7f05001e;
+        public static final int delete=0x7f050020;
+        public static final int edit=0x7f05001f;
         public static final int english=0x7f050009;
-        public static final int engverb=0x7f05001c;
+        public static final int engverb=0x7f05001d;
         public static final int gameTypeRadio=0x7f050015;
         public static final int game_new50=0x7f050017;
         public static final int game_normal=0x7f050016;
@@ -47,12 +47,12 @@ public final class R {
         public static final int showhide=0x7f050011;
         public static final int sort=0x7f05000b;
         public static final int telugu=0x7f05000a;
-        public static final int telverb=0x7f05001d;
+        public static final int telverb=0x7f05001e;
         public static final int verb_eng=0x7f050024;
         public static final int verb_tel=0x7f050025;
-        public static final int verbs=0x7f050023;
+        public static final int verbs=0x7f05001c;
         public static final int view_verb=0x7f050027;
-        public static final int word2_text_view=0x7f050020;
+        public static final int word2_text_view=0x7f050021;
         public static final int word_text_view=0x7f05000e;
     }
     public static final class layout {
@@ -99,6 +99,7 @@ public final class R {
         public static final int telugu=0x7f04001c;
         public static final int telwordhint=0x7f04000f;
         public static final int toggleanswer=0x7f040016;
+        public static final int verbs=0x7f04001f;
         public static final int welcome=0x7f040002;
     }
 }
