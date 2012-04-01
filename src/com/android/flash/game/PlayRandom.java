@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.flash.R;
 import com.android.flash.SibOne;
+import com.android.flash.util.Fconstant;
 
 /**
  * Android activity page that displays a shuffled word game
@@ -43,10 +44,10 @@ public class PlayRandom extends Activity {
 		
 		if (myGame == null) {
 			//no game made yet, create one
-			restartGame(1);
+			restartGame(1, Fconstant.SIBONE);
 		} else {
 			//just initialize the page with the current game
-			restartGame(0);
+			restartGame(0, Fconstant.SIBONE);
 		}
 		
 		super.onCreate(savedInstanceState);
@@ -56,36 +57,31 @@ public class PlayRandom extends Activity {
 		switch (v.getId()) {
 		case R.id.next:
 			word = myGame.getNext();
-
-			input1.setText(word.getName());
-			input2.setVisibility(View.GONE);
-			status = 0;
-			input2.setText(word.getPair().getName());
-			dateView.setText(DateFormat.getDateInstance().format(word.getDate()));
+			updateRound();
 			break;
 			
 		case R.id.last:
 			word = myGame.getLast();
-			
-			input1.setText(word.getName());
-			input2.setVisibility(View.GONE);
-			status = 0;
-			input2.setText(word.getPair().getName());
-			dateView.setText(DateFormat.getDateInstance().format(word.getDate()));
+			updateRound();
 			break;
 		case R.id.restart:
 			//get the type of game to create!
 			RadioGroup gameSelected = (RadioGroup) findViewById(R.id.gameTypeRadio);
+			
+			//set language
+			int lang = ((RadioGroup) findViewById(R.id.langRadio)).getCheckedRadioButtonId();
+			lang = (lang == R.id.lang_eng) ? Fconstant.SIBONE : Fconstant.SIBTWO;
+			
 			switch (gameSelected.getCheckedRadioButtonId()) {
 			case R.id.game_normal:
 				//restart random shuffle game
-				restartGame(1);
+				restartGame(1, lang);
 				break;
 			case R.id.game_new50:
-				restartGame(2);
+				restartGame(2, lang);
 				break;
 			case R.id.game_verbs:
-				restartGame(3);
+				restartGame(3, lang);
 				break;
 			}
 			break;
@@ -107,24 +103,38 @@ public class PlayRandom extends Activity {
 	}
 	
 	/**
+	 * Resets visibility and sets the game text
+	 */
+	private void updateRound() {
+		//deal with the language choice
+		if (myGame.getLang() == Fconstant.SIBONE) {
+			input1.setText(word.getName());
+			input2.setText(word.getPair().getName());
+		} else {
+			input1.setText(word.getPair().getName());
+			input2.setText(word.getName());
+		}
+		
+		input2.setVisibility(View.GONE);
+		status = 0;
+		
+		dateView.setText(DateFormat.getDateInstance().format(word.getDate()));
+	}
+
+	/**
 	 * Restarts the game.  Multiple modes based on type for the style of game to be created.
 	 * 
 	 * @param type
 	 */
-	private void restartGame(int type) {
+	private void restartGame(int type, int lang) {
 		if (type != 0) {
-			myGame = new Game(deserialize("flash_contents"), type);
+			myGame = new Game(deserialize("flash_contents"), type, lang);
 		}
 		
 		//initialize the textfields
 		word = myGame.getNext();
-		input1.setText(word.getName());
-
-		input2.setVisibility(View.GONE);
-		status = 0;
-		input2.setText(word.getPair().getName());
+		updateRound();
 		remaining.setText("Words Remaining: " + myGame.wordsLeft());
-		dateView.setText(DateFormat.getDateInstance().format(word.getDate()));
 		
 	}
 	

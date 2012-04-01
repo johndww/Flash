@@ -16,16 +16,17 @@ public class Game {
 	private SibOne sibOne;
 	private Stack<SibOne> remainingWords;
 	private Stack<SibOne> completedWords;
+	private int lang;
 
 	/**
 	 * Generates a new Game instances
 	 * 
 	 * @param myItems
 	 */
-	public Game(ArrayList<SibOne> myItems, int type) {
+	public Game(ArrayList<SibOne> myItems, int type, int lang) {
 		remainingWords = new Stack<SibOne>();
 		completedWords = new Stack<SibOne>();
-		startGame(myItems, type);
+		startGame(myItems, type, lang);
 	}
 	
 	
@@ -34,9 +35,10 @@ public class Game {
 	 * 
 	 * @param myItems
 	 */
-	public void startGame(ArrayList<SibOne> myItems, int type) {
+	public void startGame(ArrayList<SibOne> myItems, int type, int lang) {
 		
 		ArrayList<SibOne> words = new ArrayList<SibOne>();
+		this.lang = lang;
 		
 		if (myItems != null) {
 			switch (type) {
@@ -148,5 +150,9 @@ public class Game {
 	 */
 	public int wordsLeft() {
 		return remainingWords.size();
+	}
+	
+	public int getLang() {
+		return lang;
 	}
 }

@@ -112,4 +112,27 @@
         android:layout_marginBottom="16dp"
         android:text="@+id/date" />
 
+    <RadioGroup
+        android:id="@+id/langRadio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/restart"
+        android:layout_alignLeft="@+id/last"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/gameTypeRadio" >
+
+        <RadioButton
+            android:id="@+id/lang_eng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/itemTitle1" />
+
+        <RadioButton
+            android:id="@+id/lang_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/itemTitle2" />
+    </RadioGroup>
+
 </RelativeLayout>

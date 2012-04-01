@@ -13,8 +13,8 @@
     <string name="item_created">Item Created</string>
     <string name="eng_play_button">List Word1(Eng)</string>
     <string name="list_button">List Words</string>
-    <string name="itemTitle1">English:</string>
-    <string name="itemTitle2">Telugu:</string>
+    <string name="itemTitle1">English</string>
+    <string name="itemTitle2">Telugu</string>
     <string name="engwordhint">English Word</string>
     <string name="telwordhint">Telugu Word</string>
     <string name="eng_vmeaning">English Verb Phrase</string>
@@ -33,6 +33,7 @@
     <string name="telugu">Telugu</string>
     <string name="date">Date</string>
     <string name="alphabetical">Alphabetical</string>
+    
     
 
 </resources>
