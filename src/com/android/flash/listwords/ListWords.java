@@ -143,9 +143,10 @@ public class ListWords extends ListActivity {
 				break;
 			case Fconstant.LISTTYPE_ENGDATE:
 				Collections.sort(myItemsSorted, new Comparator<SibOne>() {
+					@Override
 					public int compare(SibOne o1, SibOne o2) {
 						//sort by date, newest first
-						return o1.getDate().compareTo(o2.getDate());
+						return -o1.getDate().compareTo(o2.getDate());
 					}
 				});
 				sibOneAdapter = new SibOneAdapter(this, R.layout.playengrow, myItemsSorted);
@@ -153,9 +154,10 @@ public class ListWords extends ListActivity {
 				break;
 			case Fconstant.LISTTYPE_TELDATE:
 				Collections.sort(myItemsSorted, new Comparator<SibOne>() {
+					@Override
 					public int compare(SibOne o1, SibOne o2) {
 						//sort  by date, newest first
-						return o1.getDate().compareTo(o2.getDate());
+						return -o1.getDate().compareTo(o2.getDate());
 					}
 				});
 				sibTwoAdapter = new SibTwoAdapter(this, R.layout.playengrow, myItemsSorted);

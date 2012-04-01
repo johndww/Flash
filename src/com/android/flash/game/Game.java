@@ -59,8 +59,9 @@ public class Game {
 			case 2:
 				//sort by date, most recent gets the lower indicies
 				Collections.sort(myItems, new Comparator<SibOne>() {
+					@Override
 					public int compare(SibOne o1, SibOne o2) {
-						return o1.getDate().compareTo(o2.getDate());
+						return -o1.getDate().compareTo(o2.getDate());
 					}
 				});
 				
