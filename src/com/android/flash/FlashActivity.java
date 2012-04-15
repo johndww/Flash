@@ -99,7 +99,12 @@ public class FlashActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (data != null) {
-			myItems = deserialize("flash_contents");
+            try {
+                FileInputStream fis = openFileInput("flash_contents");
+                myItems = Serializer.deserialize(fis);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 			if (myItems == null) {
 				myItems = new ArrayList<SibOne>();
 			}
@@ -131,48 +136,5 @@ public class FlashActivity extends Activity {
 				}
 			}
 		}
-	}
-
-	/** Serialize stuff here */
-	public void serialize(ArrayList<SibOne> objToSerialize, String fileName) {
-		FileOutputStream fos;
-		try {
-			fos = openFileOutput(fileName, Context.MODE_PRIVATE);
-			ObjectOutputStream os = new ObjectOutputStream(fos);
-			os.writeObject(objToSerialize);
-			os.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/** Deserialize stuff here */
-	@SuppressWarnings("unchecked")
-	public ArrayList<SibOne> deserialize(String fileName) {
-		ArrayList<SibOne> deserializedObject = null;
-
-		try {
-			FileInputStream fis = openFileInput(fileName);
-			ObjectInputStream is = new ObjectInputStream(fis);
-			deserializedObject = (ArrayList<SibOne>) is.readObject();
-			is.close();
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return deserializedObject;
 	}
 }

@@ -44,54 +44,6 @@ public class ListWords extends ListActivity {
 		
 		//just use the resume logic
 		onResume();
-		
-		/**try {
-			FileInputStream fis = openFileInput("flash_contents");
-			myItems = Serializer.deserialize(fis);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		myItemsSorted = (ArrayList<SibOne>) myItems.clone();
-		
-		//set our adapter based on the type of list the user selected on the home page
-		switch(getIntent().getExtras().getInt("listtype")) {
-		case Fconstant.LISTTYPE_ENGALPH:
-			Collections.sort(myItemsSorted);
-			sibOneAdapter = new SibOneAdapter(this, R.layout.playengrow, myItemsSorted);
-			setListAdapter(sibOneAdapter);
-			break;
-		case Fconstant.LISTTYPE_TELALPH:
-			Collections.sort(myItemsSorted, new SibTwoComparator());
-			sibTwoAdapter = new SibTwoAdapter(this, R.layout.playengrow, myItemsSorted);
-			setListAdapter(sibTwoAdapter);
-			break;
-		case Fconstant.LISTTYPE_ENGDATE:
-			Collections.sort(myItemsSorted, new Comparator<SibOne>() {
-				public int compare(SibOne o1, SibOne o2) {
-					//sort by date, newest first
-					return o1.getDate().compareTo(o2.getDate())*-1;
-				}
-			});
-			sibOneAdapter = new SibOneAdapter(this, R.layout.playengrow, myItemsSorted);
-			setListAdapter(sibOneAdapter);
-			break;
-		case Fconstant.LISTTYPE_TELDATE:
-			Collections.sort(myItemsSorted, new Comparator<SibOne>() {
-				public int compare(SibOne o1, SibOne o2) {
-					//sort by date, newest first
-					return o1.getDate().compareTo(o2.getDate())*-1;
-				}
-			});
-			sibTwoAdapter = new SibTwoAdapter(this, R.layout.playengrow, myItemsSorted);
-			setListAdapter(sibTwoAdapter);
-			break;
-		default:
-			break;
-		}
-
-		this.registerForContextMenu(getListView());
-		*/
 	}
 	
 	@Override

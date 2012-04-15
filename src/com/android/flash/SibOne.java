@@ -14,14 +14,14 @@ public class SibOne extends Item implements Parcelable, Serializable, Comparable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private String name;
 	private SibTwo sibTwo;
-	private Calendar cal;
 	private Date date;
 
 	/** constructor to build a SibOne item */
 	public SibOne(String name) {
 		this.name = name;
-		cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
 		this.date = cal.getTime();
 	}
 

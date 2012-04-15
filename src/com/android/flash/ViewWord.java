@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.android.flash.util.Serializer;
 
 public class ViewWord extends Activity {
 	SibOne sibone;
@@ -38,7 +39,12 @@ public class ViewWord extends Activity {
 		setContentView(R.layout.viewsibone);
 
 		position = getIntent().getExtras().getInt("position");
-		myItems = deserialize("flash_contents");
+        try {
+            FileInputStream fis = openFileInput("flash_contents");
+            myItems = Serializer.deserialize(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 		sibone = myItems.get(position);
 
 		((TextView) findViewById(R.id.EngWord)).setText(sibone.getName());
@@ -140,25 +146,8 @@ public class ViewWord extends Activity {
 		return super.onContextItemSelected(item);
 
 	}
-	
-	/** Serialize stuff here */
-	public void serialize(ArrayList<SibOne> objToSerialize, String fileName) {
-		FileOutputStream fos;
-		try {
-			fos = openFileOutput(fileName, Context.MODE_PRIVATE);
-			ObjectOutputStream os = new ObjectOutputStream(fos);
-			os.writeObject(objToSerialize);
-			os.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
-	/** Deserialize stuff here */
+    /** Deserialize stuff here */
 	@SuppressWarnings("unchecked")
 	public ArrayList<SibOne> deserialize(String fileName) {
 		ArrayList<SibOne> deserializedObject = null;

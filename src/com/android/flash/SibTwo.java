@@ -15,11 +15,11 @@ public class SibTwo extends Item implements Parcelable, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ArrayList<SibOne> myVerbs;
+    private String name;
 
 	/** constructor to build a SibTwo item */
 	public SibTwo(String name) {
 		this.name = name;
-		this.date = new Date();
 
 	}
 	
