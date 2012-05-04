@@ -1,17 +1,8 @@
 package com.android.flash;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +12,7 @@ import android.widget.Toast;
 import com.android.flash.game.PlayRandom;
 import com.android.flash.listwords.ListWords;
 import com.android.flash.util.Fconstant;
-import com.android.flash.util.Serializer;
+import com.android.flash.util.sibDataSource;
 
 public class FlashActivity extends Activity {
 
@@ -99,40 +90,43 @@ public class FlashActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (data != null) {
-            try {
-                FileInputStream fis = openFileInput("flash_contents");
-                myItems = Serializer.deserialize(fis);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-			if (myItems == null) {
-				myItems = new ArrayList<SibOne>();
-			}
+//            try {
+//                FileInputStream fis = openFileInput("flash_contents");
+//                myItems = Serializer.deserialize(fis);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//			if (myItems == null) {
+//				myItems = new ArrayList<SibOne>();
+//			}
 			if (requestCode == REQUEST_CREATE) {
 				if (data.hasExtra("item1") && data.hasExtra("item2")) {
 					// process the two strings returned
 
-					tmpSibOne = new SibOne(data.getExtras().getString("item1"));
-					tmpSibTwo = new SibTwo(data.getExtras().getString("item2"));
-					tmpSibOne.updatePair(tmpSibTwo);
+//					tmpSibOne = new SibOne(data.getExtras().getString("item1"));
+//					tmpSibTwo = new SibTwo(data.getExtras().getString("item2"));
+//					tmpSibOne.updatePair(tmpSibTwo);
+//
+//					myItems.add(tmpSibOne);
+//
+//					// dereference the tmp values
+//					tmpSibOne = null;
+//					tmpSibTwo = null;
 
-					myItems.add(tmpSibOne);
-
-					// dereference the tmp values
-					tmpSibOne = null;
-					tmpSibTwo = null;
+                    sibDataSource datasource = new sibDataSource(this);
+                    datasource.open();
 
 					Toast.makeText(getApplicationContext(),
 							R.string.item_created, Toast.LENGTH_SHORT).show();
 
 					//serialize myItems
-					try {
-						FileOutputStream fos;
-						fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-						Serializer.serialize(myItems, fos);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
+//					try {
+//						FileOutputStream fos;
+//						fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
+//						Serializer.serialize(myItems, fos);
+//					} catch (FileNotFoundException e) {
+//						e.printStackTrace();
+//					}
 				}
 			}
 		}
