@@ -9,17 +9,17 @@ import java.util.Date;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SibTwo extends Item implements Parcelable, Serializable {
+public class SibTwo extends Item implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private String name;
 	private ArrayList<SibOne> myVerbs;
 
-	/** constructor to build a SibTwo item */
+    /** constructor to build a SibTwo item */
 	public SibTwo(String name) {
 		this.name = name;
-		this.date = new Date();
 
 	}
 	
@@ -38,35 +38,11 @@ public class SibTwo extends Item implements Parcelable, Serializable {
 		return myVerbs;
 	}
 
-	public int describeContents() {
-		return 0;
-	}
-	
-	
-	/** PARCELABLE STUFF BELOW, PROBABLY NEEDS UPDATING */
-
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(this.name);
-
-	}
-	
-	/** constructor to build a SibTwo item from parcel */
-	public SibTwo(Parcel in) {
-		this.name = in.readString();
-
-	}
-
-	public static final Parcelable.Creator<SibTwo> CREATOR = new Parcelable.Creator<SibTwo>() {
-		public SibTwo createFromParcel(Parcel in) {
-			return new SibTwo(in);
-		}
-
-		public SibTwo[] newArray(int size) {
-			return new SibTwo[size];
-		}
-	};
-
 	public void setName(String name) {
 		this.name = name;
 	}
+
+    public String getName() {
+        return name;
+    }
 }

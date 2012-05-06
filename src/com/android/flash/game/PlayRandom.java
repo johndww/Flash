@@ -1,10 +1,6 @@
 package com.android.flash.game;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
+import java.io.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -18,6 +14,7 @@ import android.widget.TextView;
 import com.android.flash.R;
 import com.android.flash.SibOne;
 import com.android.flash.util.Fconstant;
+import com.android.flash.util.Serializer;
 
 /**
  * Android activity page that displays a shuffled word game
@@ -131,39 +128,20 @@ public class PlayRandom extends Activity {
 		boolean verbs = ((CheckBox)findViewById(R.id.verbs)).isChecked();
 		
 		if (type != 0) {
-			myGame = new Game(deserialize("flash_contents"), type, lang, verbs);
-		}
+            ArrayList<SibOne> myItems = null;
+            try {
+                FileInputStream fis = openFileInput("flash_contents");
+                myItems = Serializer.deserialize(fis);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            myGame = new Game(myItems, type, lang, verbs);
+        }
 		
 		//initialize the textfields
 		word = myGame.getNext();
 		updateRound();
 		remaining.setText("Words Remaining: " + myGame.wordsLeft());
-		
-	}
-	
-	/** Deserialize stuff here */
-	@SuppressWarnings("unchecked")
-	public ArrayList<SibOne> deserialize(String fileName) {
-		ArrayList<SibOne> deserializedObject = null;
 
-		try {
-			FileInputStream fis = openFileInput(fileName);
-			ObjectInputStream is = new ObjectInputStream(fis);
-			deserializedObject = (ArrayList<SibOne>) is.readObject();
-			is.close();
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return deserializedObject;
 	}
 }

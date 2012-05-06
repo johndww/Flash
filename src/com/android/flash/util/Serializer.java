@@ -35,7 +35,6 @@ public class Serializer {
 	 * Puts a backup in the external storage as well.
 	 * 
 	 * @param objToSerialize
-	 * @param fileName
 	 * @param fos
 	 *            FileOutputStream fos = openFileOutput(fileName,
 	 *            Context.MODE_PRIVATE);

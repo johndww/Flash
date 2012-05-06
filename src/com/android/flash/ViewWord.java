@@ -1,16 +1,5 @@
 package com.android.flash;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
-import java.util.ArrayList;
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +12,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.android.flash.util.Serializer;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class ViewWord extends Activity {
 	SibOne sibone;
@@ -38,7 +32,12 @@ public class ViewWord extends Activity {
 		setContentView(R.layout.viewsibone);
 
 		position = getIntent().getExtras().getInt("position");
-		myItems = deserialize("flash_contents");
+        try {
+            FileInputStream fis = openFileInput("flash_contents");
+            myItems = Serializer.deserialize(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 		sibone = myItems.get(position);
 
 		((TextView) findViewById(R.id.EngWord)).setText(sibone.getName());
@@ -139,48 +138,5 @@ public class ViewWord extends Activity {
 		startActivity(intent);
 		return super.onContextItemSelected(item);
 
-	}
-	
-	/** Serialize stuff here */
-	public void serialize(ArrayList<SibOne> objToSerialize, String fileName) {
-		FileOutputStream fos;
-		try {
-			fos = openFileOutput(fileName, Context.MODE_PRIVATE);
-			ObjectOutputStream os = new ObjectOutputStream(fos);
-			os.writeObject(objToSerialize);
-			os.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/** Deserialize stuff here */
-	@SuppressWarnings("unchecked")
-	public ArrayList<SibOne> deserialize(String fileName) {
-		ArrayList<SibOne> deserializedObject = null;
-
-		try {
-			FileInputStream fis = openFileInput(fileName);
-			ObjectInputStream is = new ObjectInputStream(fis);
-			deserializedObject = (ArrayList<SibOne>) is.readObject();
-			is.close();
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return deserializedObject;
 	}
 }

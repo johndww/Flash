@@ -1,17 +1,5 @@
 package com.android.flash;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
-import java.util.ArrayList;
-
-import com.android.flash.sibs.SibOneAdapter;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -26,6 +14,13 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.android.flash.sibs.SibOneAdapter;
+import com.android.flash.util.Serializer;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class ViewVerbs extends ListActivity {
 
@@ -37,7 +32,12 @@ public class ViewVerbs extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		myItems = deserialize("flash_contents");
+        try {
+            FileInputStream fis = openFileInput("flash_contents");
+            myItems = Serializer.deserialize(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 		position = getIntent().getExtras().getInt("position");
 		myVerbs = myItems.get(position).getPair().getVerbs();
 
@@ -94,11 +94,14 @@ public class ViewVerbs extends ListActivity {
 									myVerbs.get(info.position).getPair().setName(((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim());
 									
 									sibOneAdapter.notifyDataSetChanged();
-									try {
-										serialize(myItems, "flash_contents");
-									} catch (NullPointerException e) {
-										e.printStackTrace();
-									}
+                                    //serialize myItems
+                                    try {
+                                        FileOutputStream fos;
+                                        fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
+                                        Serializer.serialize(myItems, fos);
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
 
 								}
 
@@ -130,11 +133,14 @@ public class ViewVerbs extends ListActivity {
 									//myItems.remove(tmpIndex);
 									sibOneAdapter.notifyDataSetChanged();
 
-									try {
-										serialize(myItems, "flash_contents");
-									} catch (NullPointerException e) {
-										e.printStackTrace();
-									}
+                                    //serialize myItems
+                                    try {
+                                        FileOutputStream fos;
+                                        fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
+                                        Serializer.serialize(myItems, fos);
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
 
 								}
 
@@ -145,48 +151,5 @@ public class ViewVerbs extends ListActivity {
 
 		return super.onContextItemSelected(item);
 
-	}
-
-	/** Serialize stuff here */
-	public void serialize(ArrayList<SibOne> objToSerialize, String fileName) {
-		FileOutputStream fos;
-		try {
-			fos = openFileOutput(fileName, Context.MODE_PRIVATE);
-			ObjectOutputStream os = new ObjectOutputStream(fos);
-			os.writeObject(objToSerialize);
-			os.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/** Deserialize stuff here */
-	@SuppressWarnings("unchecked")
-	public ArrayList<SibOne> deserialize(String fileName) {
-		ArrayList<SibOne> deserializedObject = null;
-
-		try {
-			FileInputStream fis = openFileInput(fileName);
-			ObjectInputStream is = new ObjectInputStream(fis);
-			deserializedObject = (ArrayList<SibOne>) is.readObject();
-			is.close();
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return deserializedObject;
 	}
 }

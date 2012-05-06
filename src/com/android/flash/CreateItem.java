@@ -29,7 +29,6 @@ public class CreateItem extends Activity {
 			setResult(RESULT_CANCELED);
 		} else {
 			Intent data = new Intent();
-			// Return some hard-coded values
 			data.putExtra("item1", ((EditText) findViewById(R.id.itemName1))
 					.getText().toString());
 			data.putExtra("item2", ((EditText) findViewById(R.id.itemName2))
