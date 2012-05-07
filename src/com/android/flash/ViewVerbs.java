@@ -2,7 +2,6 @@ package com.android.flash;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -17,9 +16,6 @@ import android.widget.Toast;
 import com.android.flash.sibs.SibOneAdapter;
 import com.android.flash.util.Serializer;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class ViewVerbs extends ListActivity {
@@ -33,9 +29,8 @@ public class ViewVerbs extends ListActivity {
 		super.onCreate(savedInstanceState);
 
         try {
-            FileInputStream fis = openFileInput("flash_contents");
-            myItems = Serializer.deserialize(fis);
-        } catch (FileNotFoundException e) {
+            myItems = Serializer.deserialize();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 		position = getIntent().getExtras().getInt("position");
@@ -96,10 +91,8 @@ public class ViewVerbs extends ListActivity {
 									sibOneAdapter.notifyDataSetChanged();
                                     //serialize myItems
                                     try {
-                                        FileOutputStream fos;
-                                        fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-                                        Serializer.serialize(myItems, fos);
-                                    } catch (FileNotFoundException e) {
+                                        Serializer.serialize(myItems);
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
 
@@ -135,10 +128,8 @@ public class ViewVerbs extends ListActivity {
 
                                     //serialize myItems
                                     try {
-                                        FileOutputStream fos;
-                                        fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-                                        Serializer.serialize(myItems, fos);
-                                    } catch (FileNotFoundException e) {
+                                        Serializer.serialize(myItems);
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
 

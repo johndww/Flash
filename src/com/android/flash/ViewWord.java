@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.android.flash.util.Serializer;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ViewWord extends Activity {
@@ -33,9 +31,8 @@ public class ViewWord extends Activity {
 
 		position = getIntent().getExtras().getInt("position");
         try {
-            FileInputStream fis = openFileInput("flash_contents");
-            myItems = Serializer.deserialize(fis);
-        } catch (FileNotFoundException e) {
+            myItems = Serializer.deserialize();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 		sibone = myItems.get(position);

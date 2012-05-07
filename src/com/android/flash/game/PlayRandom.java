@@ -1,20 +1,18 @@
 package com.android.flash.game;
 
-import java.io.*;
-import java.text.DateFormat;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.android.flash.R;
 import com.android.flash.SibOne;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
 
 /**
  * Android activity page that displays a shuffled word game
@@ -130,9 +128,8 @@ public class PlayRandom extends Activity {
 		if (type != 0) {
             ArrayList<SibOne> myItems = null;
             try {
-                FileInputStream fis = openFileInput("flash_contents");
-                myItems = Serializer.deserialize(fis);
-            } catch (FileNotFoundException e) {
+                myItems = Serializer.deserialize();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             myGame = new Game(myItems, type, lang, verbs);

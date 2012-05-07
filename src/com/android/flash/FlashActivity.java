@@ -1,27 +1,19 @@
 package com.android.flash;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.android.flash.game.PlayRandom;
 import com.android.flash.listwords.ListWords;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class FlashActivity extends Activity {
 
@@ -101,7 +93,7 @@ public class FlashActivity extends Activity {
 		if (data != null) {
             try {
                 FileInputStream fis = openFileInput("flash_contents");
-                myItems = Serializer.deserialize(fis);
+                myItems = Serializer.deserialize();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -123,10 +115,8 @@ public class FlashActivity extends Activity {
 
 					//serialize myItems
 					try {
-						FileOutputStream fos;
-						fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-						Serializer.serialize(myItems, fos);
-					} catch (FileNotFoundException e) {
+						Serializer.serialize(myItems);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}

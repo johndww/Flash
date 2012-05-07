@@ -1,15 +1,7 @@
 package com.android.flash.listwords;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +14,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.flash.R;
 import com.android.flash.SibOne;
 import com.android.flash.ViewWord;
@@ -31,6 +22,13 @@ import com.android.flash.sibs.SibTwoAdapter;
 import com.android.flash.sibs.SibTwoComparator;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ListWords extends ListActivity {
 	ArrayList<SibOne> myItems;
@@ -56,8 +54,7 @@ public class ListWords extends ListActivity {
 					
 					FileOutputStream fos;
 					try {
-						fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-						Serializer.serialize(myItems, fos);
+						Serializer.serialize(myItems);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -73,9 +70,10 @@ public class ListWords extends ListActivity {
 	
 	@SuppressWarnings("unchecked")
 	public void onResume() {
+        super.onResume();
 		try {
 			FileInputStream fis = openFileInput("flash_contents");
-			myItems = Serializer.deserialize(fis);
+			myItems = Serializer.deserialize();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -219,8 +217,7 @@ public class ListWords extends ListActivity {
 										sibOneAdapter.notifyDataSetChanged();
 									}
 									try {
-										FileOutputStream fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-										Serializer.serialize(myItems, fos);
+										Serializer.serialize(myItems);
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
@@ -260,8 +257,7 @@ public class ListWords extends ListActivity {
 							}
 
 							try {
-								FileOutputStream fos = openFileOutput("flash_contents", Context.MODE_PRIVATE);
-								Serializer.serialize(myItems, fos);
+								Serializer.serialize(myItems);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
