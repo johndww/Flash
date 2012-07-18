@@ -127,11 +127,7 @@ public class PlayRandom extends Activity {
 		
 		if (type != 0) {
             ArrayList<SibOne> myItems = null;
-            try {
-                myItems = Serializer.deserialize();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            myItems = Serializer.deserialize();
             myGame = new Game(myItems, type, lang, verbs);
         }
 		

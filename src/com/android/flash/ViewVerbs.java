@@ -28,11 +28,7 @@ public class ViewVerbs extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        try {
-            myItems = Serializer.deserialize();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        myItems = Serializer.deserialize();
 		position = getIntent().getExtras().getInt("position");
 		myVerbs = myItems.get(position).getPair().getVerbs();
 
@@ -90,11 +86,7 @@ public class ViewVerbs extends ListActivity {
 									
 									sibOneAdapter.notifyDataSetChanged();
                                     //serialize myItems
-                                    try {
-                                        Serializer.serialize(myItems);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                    Serializer.serialize(myItems);
 
 								}
 
@@ -127,11 +119,7 @@ public class ViewVerbs extends ListActivity {
 									sibOneAdapter.notifyDataSetChanged();
 
                                     //serialize myItems
-                                    try {
-                                        Serializer.serialize(myItems);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                    Serializer.serialize(myItems);
 
 								}
 

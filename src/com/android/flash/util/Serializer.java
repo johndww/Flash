@@ -44,7 +44,7 @@ public class Serializer {
                 if (Environment.MEDIA_MOUNTED.equals(state)) {
                     // We can read and write the media
                     File sdCard = Environment.getExternalStorageDirectory();
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjson/"));
+                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/ext_sd/flashjson/"));
                     os.writeObject(json);
                     os.flush();
                     os.close();
@@ -62,7 +62,7 @@ public class Serializer {
 
                     if (Environment.MEDIA_MOUNTED.equals(state)) {
                         File sdCard = Environment.getExternalStorageDirectory();
-                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjsonbackup/"));
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/ext_sd/flashjsonbackup/"));
                         os.writeObject(json);
                         os.flush();
                         os.close();
@@ -92,7 +92,7 @@ public class Serializer {
             if (Environment.MEDIA_MOUNTED.equals(state)) {
                 // We can read and write the media
                 File sdCard = Environment.getExternalStorageDirectory();
-                ObjectInputStream is = new ObjectInputStream(new FileInputStream(sdCard.getAbsolutePath() + "/flashjson/"));
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(sdCard.getAbsolutePath() + "/ext_sd/flashjson/"));
                 String json = (String) is.readObject();
                 is.close();
 

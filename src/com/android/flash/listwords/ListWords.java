@@ -39,9 +39,6 @@ public class ListWords extends ListActivity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		//just use the resume logic
-		onResume();
 	}
 	
 	@Override
@@ -53,12 +50,7 @@ public class ListWords extends ListActivity {
 					myItems.get(data.getExtras().getInt("position")).getPair().addVerb(data.getExtras().getString("item1"),data.getExtras().getString("item2"));
 					
 					FileOutputStream fos;
-					try {
-						Serializer.serialize(myItems);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					Serializer.serialize(myItems);
 					
 					Intent intent = new Intent(this, ViewWord.class);
 					intent.putExtra("position", data.getExtras().getInt("position"));
@@ -71,12 +63,7 @@ public class ListWords extends ListActivity {
 	@SuppressWarnings("unchecked")
 	public void onResume() {
         super.onResume();
-		try {
-			FileInputStream fis = openFileInput("flash_contents");
-			myItems = Serializer.deserialize();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		myItems = Serializer.deserialize();
 		if (myItems != null) {
 			myItemsSorted = (ArrayList<SibOne>) myItems.clone();
 			//set our adapter based on the type of list the user selected on the home page
@@ -119,7 +106,6 @@ public class ListWords extends ListActivity {
 
 		this.registerForContextMenu(getListView());
 		this.setSelection(selection);
-		super.onResume();
 		}
 	}
 	
@@ -216,11 +202,7 @@ public class ListWords extends ListActivity {
 									} else {
 										sibOneAdapter.notifyDataSetChanged();
 									}
-									try {
-										Serializer.serialize(myItems);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
+									Serializer.serialize(myItems);
 
 								}
 

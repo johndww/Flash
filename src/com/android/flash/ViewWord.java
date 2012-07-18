@@ -30,11 +30,7 @@ public class ViewWord extends Activity {
 		setContentView(R.layout.viewsibone);
 
 		position = getIntent().getExtras().getInt("position");
-        try {
-            myItems = Serializer.deserialize();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        myItems = Serializer.deserialize();
 		sibone = myItems.get(position);
 
 		((TextView) findViewById(R.id.EngWord)).setText(sibone.getName());

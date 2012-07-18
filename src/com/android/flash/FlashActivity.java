@@ -3,6 +3,7 @@ package com.android.flash;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.android.flash.listwords.ListWords;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -91,12 +93,7 @@ public class FlashActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (data != null) {
-            try {
-                FileInputStream fis = openFileInput("flash_contents");
-                myItems = Serializer.deserialize();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            myItems = Serializer.deserialize();
 			if (myItems == null) {
 				myItems = new ArrayList<SibOne>();
 			}
@@ -114,11 +111,7 @@ public class FlashActivity extends Activity {
 							R.string.item_created, Toast.LENGTH_SHORT).show();
 
 					//serialize myItems
-					try {
-						Serializer.serialize(myItems);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					Serializer.serialize(myItems);
 				}
 			}
 		}
