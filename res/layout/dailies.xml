@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#C0C0C0"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/input1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@+id/input1"
+            android:textColor="#000000"
+            android:textSize="30dp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/input2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@+id/input2"
+            android:textColor="#000000"
+            android:textSize="30dp" >
+        </TextView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/incorrect"
+        android:layout_width="69dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClick"
+        android:text="@string/incorrect" android:layout_toLeftOf="@+id/showhide" android:layout_alignParentLeft="true"
+        android:layout_marginLeft="6dp" android:background="#ff1f2a" android:layout_alignTop="@+id/showhide"
+        android:focusable="false"/>
+
+    <Button
+        android:id="@+id/showhide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="@string/toggleanswer" />
+
+    <Button
+        android:id="@+id/correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/incorrect"
+        android:onClick="onClick"
+        android:text="@string/correct" android:singleLine="true" android:layout_toRightOf="@+id/showhide"
+        android:background="#1cff2e" android:layout_alignBottom="@+id/incorrect" android:layout_alignTop="@+id/incorrect"/>
+
+    <TextView
+        android:id="@+id/remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@+id/remaining"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="105dp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/remaining"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="16dp"
+        android:text="@+id/date" />
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="57dp"
+            android:text="Finished"
+            android:id="@+id/finished" android:layout_alignParentLeft="true" android:layout_marginLeft="58dp"
+            android:layout_alignParentTop="true" android:layout_marginTop="90dp"
+            android:layout_alignRight="@+id/showhide" android:layout_above="@+id/date" android:visibility="gone"/>
+
+</RelativeLayout>

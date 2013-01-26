@@ -34,7 +34,10 @@
     <string name="date">Date</string>
     <string name="alphabetical">Alphabetical</string>
     <string name="verbs">Verbs</string>
-    
+
+    <string name="Dailies">Dailies</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
     
 
 </resources>

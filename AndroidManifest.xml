@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".dailies.Dailies" />
+        <activity android:name=".dailies.DailySummary" />
         <activity android:name=".CreateItem" />
         <activity android:name=".game.PlayRandom" />
         <activity android:name=".listwords.ListWords" />

@@ -4,11 +4,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class SibOne extends Item implements Serializable, Comparable<SibOne> {
 	/**
 	 * 
@@ -17,6 +12,9 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
     private String name;
 	private SibTwo sibTwo;
 	private Date date;
+    private boolean daily;
+    private int dailyDate;
+    public final static SibOne EMPTY = new SibOne(true);
 
 	/** constructor to build a SibOne item */
 	public SibOne(String name) {
@@ -24,6 +22,11 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
 		Calendar cal = Calendar.getInstance();
 		this.date = cal.getTime();
 	}
+
+    private SibOne(final boolean empty) {
+        this.name = "Empty";
+        this.date = Calendar.getInstance().getTime();
+    }
 
 	public void updatePair(SibTwo sibTwo) {
 		this.sibTwo = sibTwo;
@@ -43,6 +46,26 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isDailyForToday() {
+        return daily && forToday();
+    }
+
+    public boolean isDaily() {
+        return this.daily;
+    }
+
+    public void setDaily(final boolean enable) {
+        this.daily = enable;
+
+        if (enable) {
+            this.dailyDate = Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH);
+        }
+    }
+
+    public boolean forToday() {
+        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH) == this.dailyDate;
     }
 	
 	public int compareTo(SibOne o) {
