@@ -19,7 +19,7 @@ public class DailyCoordinator {
 
     private ArrayList<SibOne> dailyItems;
     private ArrayList<SibOne> myItems;
-    private int today;
+    private int currentDailyDay;
 
     private DailyCoordinator() {
         //singleton
@@ -30,6 +30,7 @@ public class DailyCoordinator {
     }
 
     public boolean finished() {
+        //todo removeme
         return getDailyWords(false).size() == 0;
     }
 
@@ -37,7 +38,7 @@ public class DailyCoordinator {
         if (completed) {
             return getCompletedWords();
         }
-        if (this.dailyItems == null || today != getToday()) {
+        if (this.dailyItems == null || currentDailyDay != getToday()) {
             initDailies();
         }
         return this.dailyItems;
@@ -70,14 +71,14 @@ public class DailyCoordinator {
 
         for (SibOne tmpSibOne : allItems) {
             if (tmpSibOne.forToday() && !tmpSibOne.isDaily()) {
-                // word is for today and is no longer a daily (its completed)
+                // word is for currentDailyDay and is no longer a daily (its completed)
                 completedItems.add(tmpSibOne);
             }
 
             if ((tmpSibOne.getPair().getVerbs() != null)) {
                 for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
                     if (tmpSibOne2.forToday() && !tmpSibOne2.isDaily()) {
-                        // verb word is for today and is no longer a daily (its completed)
+                        // verb word is for currentDailyDay and is no longer a daily (its completed)
                         completedItems.add(tmpSibOne2);
                     }
 
@@ -130,7 +131,7 @@ public class DailyCoordinator {
             //TODO need to add verbs to allitems
             //sort so the least played have lower indicies
 
-            // itemPool will be what we draw from for today
+            // itemPool will be what we draw from for currentDailyDay
             ArrayList<SibOne> itemPool;
 
             if (getToday() % 3 == 0) {
@@ -151,9 +152,8 @@ public class DailyCoordinator {
                 }
                 ++i;
             }
+            this.currentDailyDay = getToday();
         }
-
-        this.today = getToday();
 
         // state of myItems may have changed, need to persist
         saveMyItems(myItems);
@@ -200,6 +200,6 @@ public class DailyCoordinator {
     }
 
     private int getToday() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH);
+        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 }

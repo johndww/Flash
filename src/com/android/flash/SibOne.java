@@ -60,12 +60,12 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
         this.daily = enable;
 
         if (enable) {
-            this.dailyDate = Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH);
+            this.dailyDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         }
     }
 
     public boolean forToday() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH) == this.dailyDate;
+        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == this.dailyDate;
     }
 	
 	public int compareTo(SibOne o) {
