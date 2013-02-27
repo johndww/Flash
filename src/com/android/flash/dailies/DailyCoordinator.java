@@ -176,10 +176,10 @@ public class DailyCoordinator {
                 final int played1 = o1.getPlayedCount();
                 final int played2 = o2.getPlayedCount();
                 if (played1 > played2) {
-                    return -1;
+                    return 1;
                 }
                 if (played1 < played2) {
-                    return 1;
+                    return -1;
                 }
                 return 0;
             }

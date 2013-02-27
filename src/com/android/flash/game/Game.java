@@ -126,6 +126,13 @@ public class Game {
         return sibOne != null ? sibOne : SibOne.EMPTY;
     }
 
+    public SibOne getCurrent() {
+        if (sibOne == null) {
+            return getNext();
+        }
+        return sibOne;
+    }
+
     /**
      * Gets the previous item for the game
      *

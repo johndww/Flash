@@ -124,7 +124,7 @@ public class Dailies extends Activity {
         }
 
         //initialize the textfields
-        word = myGame.getNext();
+        word = myGame.getCurrent();
 
         updateRound();
         remaining.setText("Words Remaining: " + myGame.wordsLeft());
