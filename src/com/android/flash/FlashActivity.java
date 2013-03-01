@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -17,9 +16,6 @@ import com.android.flash.listwords.ListWords;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class FlashActivity extends Activity {
@@ -45,7 +41,7 @@ public class FlashActivity extends Activity {
     }
 
     private void initDailyButton() {
-        final boolean finished = DailyCoordinator.get().finished();
+        final boolean finished = DailyCoordinator.get().isFinished();
         final Button button = (Button) findViewById(R.id.dailies);
 
         if (finished) {
@@ -80,14 +76,14 @@ public class FlashActivity extends Activity {
 
         switch (v.getId()) {
             case R.id.dailies:
-                final boolean finished = DailyCoordinator.get().finished();
+                final boolean finished = DailyCoordinator.get().isFinished();
                 if (finished) {
                     //go to daily summary
                     intent = new Intent(this, DailySummary.class);
                     startActivity(intent);
                 } else {
 
-                    //not finished yet, start the dailies page
+                    //not isFinished yet, start the dailies page
                     intent = new Intent(this, Dailies.class);
                     startActivityForResult(intent, request_id);
                 }

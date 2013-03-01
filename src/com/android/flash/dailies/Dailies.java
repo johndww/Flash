@@ -37,7 +37,7 @@ public class Dailies extends Activity {
         remaining = (TextView) findViewById(R.id.remaining);
         dateView = (TextView) findViewById(R.id.date);
 
-        if (COORDINATOR.finished()) {
+        if (COORDINATOR.isFinished()) {
             super.finish();
         } else {
 

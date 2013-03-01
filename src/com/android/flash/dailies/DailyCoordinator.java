@@ -29,7 +29,7 @@ public class DailyCoordinator {
         return SINGLETON;
     }
 
-    public boolean finished() {
+    public boolean isFinished() {
         //todo removeme
         return getDailyWords(false).size() == 0;
     }
@@ -98,9 +98,8 @@ public class DailyCoordinator {
 
         for (SibOne tmpSibOne : myItems) {
             if (tmpSibOne.forToday()) {
-                playedToday = true;
-
                 if (tmpSibOne.isDaily()) {
+                    playedToday = true;
                     this.dailyItems.add(tmpSibOne);
                 }
             } else if (tmpSibOne.isDaily()) {
@@ -113,9 +112,8 @@ public class DailyCoordinator {
                     // add each verb sibone to words as well (for each eng
                     // word)
                     if (tmpSibOne2.forToday()) {
-                        playedToday = true;
-
                         if (tmpSibOne2.isDaily()) {
+                            playedToday = true;
                             this.dailyItems.add(tmpSibOne2);
                         }
                     } else if (tmpSibOne2.isDaily()) {
