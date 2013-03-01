@@ -40,10 +40,10 @@ public class PlayRandom extends Activity {
 		
 		if (myGame == null) {
 			//no game made yet, create one
-			restartGame(1);
+			restartGame(GameType.NORMAL);
 		} else {
 			//just initialize the page with the current game
-			restartGame(0);
+			restartGame(GameType.INIT);
 		}
 		
 		super.onCreate(savedInstanceState);
@@ -67,13 +67,13 @@ public class PlayRandom extends Activity {
 			switch (gameSelected.getCheckedRadioButtonId()) {
 			case R.id.game_normal:
 				//restart random shuffle game
-				restartGame(1);
+				restartGame(GameType.NORMAL);
 				break;
 			case R.id.game_new50:
-				restartGame(2);
+				restartGame(GameType.NEW50);
 				break;
 			case R.id.game_verbs:
-				restartGame(3);
+				restartGame(GameType.ALLVERB);
 				break;
 			}
 			break;
@@ -115,17 +115,16 @@ public class PlayRandom extends Activity {
 
 	/**
 	 * Restarts the game.  Multiple modes based on type for the style of game to be created.
-	 * 
-	 * @param type
-	 */
-	private void restartGame(int type) {
+	 *
+     */
+	private void restartGame(GameType type) {
 		//set language
 		int lang = ((RadioGroup) findViewById(R.id.langRadio)).getCheckedRadioButtonId();
 		lang = (lang == R.id.lang_eng) ? Fconstant.SIBONE : Fconstant.SIBTWO;
 		
 		boolean verbs = ((CheckBox)findViewById(R.id.verbs)).isChecked();
 		
-		if (type != 0) {
+		if (type != GameType.INIT) {
             ArrayList<SibOne> myItems = null;
             myItems = Serializer.deserialize();
             myGame = new Game(myItems, type, lang, verbs);
@@ -137,4 +136,5 @@ public class PlayRandom extends Activity {
 		remaining.setText("Words Remaining: " + myGame.wordsLeft());
 
 	}
+
 }

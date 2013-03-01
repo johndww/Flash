@@ -19,7 +19,7 @@ public class Game {
     /**
      * Generates a new Game instances
      */
-    public Game(ArrayList<SibOne> myItems, int type, int lang, boolean verbs) {
+    public Game(ArrayList<SibOne> myItems, GameType type, int lang, boolean verbs) {
         remainingWords = new Stack<SibOne>();
         completedWords = new Stack<SibOne>();
         startGame(myItems, type, lang, verbs);
@@ -29,7 +29,7 @@ public class Game {
     /**
      * Populates & initializes a new game with deserialized data and shuffles
      */
-    public void startGame(ArrayList<SibOne> myItems, int type, int lang, boolean useVerbs) {
+    public void startGame(ArrayList<SibOne> myItems, GameType type, int lang, boolean useVerbs) {
 
         ArrayList<SibOne> words = new ArrayList<SibOne>();
         this.lang = lang;
@@ -38,7 +38,7 @@ public class Game {
             switch (type) {
 
                 //build a normal game
-                case 1:
+                case NORMAL:
                     for (SibOne tmpSibOne : myItems) {
                         words.add(tmpSibOne);
                         if ((tmpSibOne.getPair().getVerbs() != null) && (useVerbs)) {
@@ -51,8 +51,8 @@ public class Game {
                     }
                     break;
 
-                //build a top 50 game
-                case 2:
+                //build a newest 50 game
+                case NEW50:
                     //sort by date, most recent gets the lower indicies
                     Collections.sort(myItems, new Comparator<SibOne>() {
                         @Override
@@ -85,7 +85,7 @@ public class Game {
                     break;
 
                 //build a all verb game
-                case 3:
+                case ALLVERB:
                     for (SibOne tmpSibOne : myItems) {
                         if (tmpSibOne.getPair().getVerbs() != null) {
                             for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
@@ -98,8 +98,12 @@ public class Game {
                     break;
 
                 //build a dailies game
-                case 4:
+                case DAILIES:
                     words = DailyCoordinator.get().getDailyWords(false);
+                    break;
+
+                case DAILYPRACTICE:
+                    words = DailyCoordinator.get().getDailyWords(true);
                     break;
             }
         }

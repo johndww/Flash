@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.android.flash.R;
 import com.android.flash.SibOne;
 import com.android.flash.game.Game;
+import com.android.flash.game.GameType;
+import com.android.flash.game.PlayRandom;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
 
@@ -43,10 +45,10 @@ public class Dailies extends Activity {
 
             if (myGame == null) {
                 //no game made yet, create one
-                restartGame(4);
+                restartGame(GameType.DAILIES);
             } else {
                 //just initialize the page with the current game
-                restartGame(0);
+                restartGame(GameType.INIT);
             }
         }
 
@@ -112,12 +114,13 @@ public class Dailies extends Activity {
 
     /**
      * Restarts the game.  Multiple modes based on type for the style of game to be created.
+     * @param type
      */
-    private void restartGame(int type) {
+    private void restartGame(GameType type) {
         //set language
         int lang = Fconstant.SIBONE;
 
-        if (type != 0) {
+        if (type != GameType.NORMAL) {
             ArrayList<SibOne> myItems = null;
             myItems = Serializer.deserialize();
             myGame = new Game(myItems, type, lang, false);
