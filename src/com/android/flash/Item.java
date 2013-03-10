@@ -2,6 +2,7 @@ package com.android.flash;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 
 /** abstract class that the siblings use */
@@ -10,9 +11,17 @@ public class Item implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private UUID uniqueId;
     private int correct;
     private int incorrect;
     private boolean correctToday;
+
+    public UUID getUniqueId() {
+        if (this.uniqueId == null) {
+            this.uniqueId = UUID.randomUUID();
+        }
+        return this.uniqueId;
+    }
 
     public int getPlayedCount() {
         return correct + incorrect;
@@ -43,5 +52,9 @@ public class Item implements Serializable {
         return this.correctToday;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && (this == obj || getUniqueId() == ((Item) obj).getUniqueId());
 
+    }
 }

@@ -44,7 +44,7 @@ public class DailyCoordinator {
         return this.dailyItems;
     }
 
-    public void completed(final SibOne word, final boolean correct) {
+    public void completeWord(final SibOne word, final boolean correct) {
         if (dailyItems.contains(word)) {
             ArrayList<SibOne> myItems = getMyItems();
 
@@ -56,7 +56,7 @@ public class DailyCoordinator {
             final SibOne realWord = myItems.get(idx);
 
             realWord.incrPlayCount(correct);
-            realWord.setDaily(false);
+            realWord.setCompleted(true);
             realWord.setCorrectToday(correct);
             dailyItems.remove(word);
 
@@ -70,15 +70,15 @@ public class DailyCoordinator {
         final ArrayList<SibOne> completedItems = new ArrayList<SibOne>();
 
         for (SibOne tmpSibOne : allItems) {
-            if (tmpSibOne.forToday() && !tmpSibOne.isDaily()) {
-                // word is for currentDailyDay and is no longer a daily (its completed)
+            if (tmpSibOne.forToday() && tmpSibOne.isCompleted()) {
+                // word is for currentDailyDay and is no longer a daily (its completeWord)
                 completedItems.add(tmpSibOne);
             }
 
             if ((tmpSibOne.getPair().getVerbs() != null)) {
                 for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
-                    if (tmpSibOne2.forToday() && !tmpSibOne2.isDaily()) {
-                        // verb word is for currentDailyDay and is no longer a daily (its completed)
+                    if (tmpSibOne2.forToday() && tmpSibOne2.isCompleted()) {
+                        // verb word is for currentDailyDay and is no longer a daily (its completeWord)
                         completedItems.add(tmpSibOne2);
                     }
 
@@ -97,35 +97,36 @@ public class DailyCoordinator {
         boolean playedToday = false;
 
         for (SibOne tmpSibOne : myItems) {
-            if (tmpSibOne.forToday()) {
-                if (tmpSibOne.isDaily()) {
+            if (tmpSibOne.isDaily()) {
+                if (tmpSibOne.forToday()) {
                     playedToday = true;
-                    this.dailyItems.add(tmpSibOne);
-                }
-            } else if (tmpSibOne.isDaily()) {
-                //it's a daily, but for the past
-                tmpSibOne.setDaily(false);
-            }
-
-            if ((tmpSibOne.getPair().getVerbs() != null)) {
-                for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
-                    // add each verb sibone to words as well (for each eng
-                    // word)
-                    if (tmpSibOne2.forToday()) {
-                        if (tmpSibOne2.isDaily()) {
-                            playedToday = true;
-                            this.dailyItems.add(tmpSibOne2);
-                        }
-                    } else if (tmpSibOne2.isDaily()) {
-                        //it's a daily, but for the past
-                        tmpSibOne2.setDaily(false);
+                    if (!tmpSibOne.isCompleted()) {
+                        this.dailyItems.add(tmpSibOne);
                     }
+                } else {
+                    tmpSibOne.setDaily(false);
                 }
             }
+//
+//            if ((tmpSibOne.getPair().getVerbs() != null)) {
+//                for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
+//                    // add each verb sibone to words as well (for each eng
+//                    // word)
+//                    if (tmpSibOne2.isDaily()) {
+//                        if (tmpSibOne2.forToday()) {
+//                            playedToday = true;
+//                            this.dailyItems.add(tmpSibOne2);
+//                        } else {
+//                            tmpSibOne2.setDaily(false);
+//
+//                        }
+//                    }
+//                }
+//            }
         }
 
         if (this.dailyItems.isEmpty() && !playedToday) {
-            //we haven't completed dailies today, need to get some
+            //we haven't completeWord dailies today, need to get some
             //TODO need to add verbs to allitems
             //sort so the least played have lower indicies
 

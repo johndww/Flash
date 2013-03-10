@@ -8,7 +8,6 @@ import com.android.flash.R;
 import com.android.flash.SibOne;
 import com.android.flash.game.Game;
 import com.android.flash.game.GameType;
-import com.android.flash.game.PlayRandom;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.Serializer;
 
@@ -58,7 +57,7 @@ public class Dailies extends Activity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.correct:
-                COORDINATOR.completed(word, true);
+                COORDINATOR.completeWord(word, true);
                 if (myGame.wordsLeft() == 0) {
                     //switch activities to summary view
                     finish();
@@ -68,7 +67,7 @@ public class Dailies extends Activity {
                 break;
 
             case R.id.incorrect:
-                COORDINATOR.completed(word, false);
+                COORDINATOR.completeWord(word, false);
                 if (myGame.wordsLeft() == 0) {
                     //switch activities to summary view
                     finish();
@@ -120,7 +119,7 @@ public class Dailies extends Activity {
         //set language
         int lang = Fconstant.SIBONE;
 
-        if (type != GameType.NORMAL) {
+        if (type != GameType.INIT) {
             ArrayList<SibOne> myItems = null;
             myItems = Serializer.deserialize();
             myGame = new Game(myItems, type, lang, false);

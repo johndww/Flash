@@ -44,7 +44,7 @@ public class Serializer {
                 if (Environment.MEDIA_MOUNTED.equals(state)) {
                     // We can read and write the media
                     File sdCard = Environment.getExternalStorageDirectory();
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjson/"));
+                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjson"));
                     os.writeObject(json);
                     os.flush();
                     os.close();
@@ -62,13 +62,12 @@ public class Serializer {
 
                     if (Environment.MEDIA_MOUNTED.equals(state)) {
                         File sdCard = Environment.getExternalStorageDirectory();
-                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjsonbackup/"));
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjsonbackup"));
                         os.writeObject(json);
                         os.flush();
                         os.close();
                     } else {
-                        System.out
-                                .println("Failed to save to SDcard: Not writeable.");
+                        System.out.println("Failed to save to SDcard: Not writeable.");
                     }
                 } catch (Exception e) {
                     System.out.println("Failed to save to SDcard: Exception");

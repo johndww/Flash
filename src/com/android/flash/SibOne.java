@@ -14,6 +14,7 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
 	private Date date;
     private boolean daily;
     private int dailyDate;
+    private boolean completed;
     public final static SibOne EMPTY = new SibOne(true);
 
 	/** constructor to build a SibOne item */
@@ -62,6 +63,15 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
         if (enable) {
             this.dailyDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         }
+        setCompleted(false);
+    }
+
+    public void setCompleted(final boolean status) {
+        this.completed = status;
+    }
+
+    public boolean isCompleted() {
+        return this.completed;
     }
 
     public boolean forToday() {
