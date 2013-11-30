@@ -14,9 +14,7 @@ import com.android.flash.dailies.DailySummary;
 import com.android.flash.game.PlayRandom;
 import com.android.flash.listwords.ListWords;
 import com.android.flash.util.Fconstant;
-import com.android.flash.util.Serializer;
-
-import java.util.ArrayList;
+import com.android.flash.util.PersistanceUtils;
 
 public class FlashActivity extends Activity {
 
@@ -24,11 +22,6 @@ public class FlashActivity extends Activity {
      * Home page for the Flash App
      */
     private static final int REQUEST_CREATE = 10;
-
-    SibOne tmpSibOne;
-    SibTwo tmpSibTwo;
-
-    ArrayList<SibOne> myItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +49,6 @@ public class FlashActivity extends Activity {
      */
     protected void onPause() {
         super.onPause();
-
     }
 
     /**
@@ -126,25 +118,13 @@ public class FlashActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         initDailyButton();
         if (data != null) {
-            myItems = Serializer.deserialize();
-            if (myItems == null) {
-                myItems = new ArrayList<SibOne>();
-            }
             if (requestCode == REQUEST_CREATE) {
                 if (data.hasExtra("item1") && data.hasExtra("item2")) {
                     // process the two strings returned
-
-                    tmpSibOne = new SibOne(data.getExtras().getString("item1"));
-                    tmpSibTwo = new SibTwo(data.getExtras().getString("item2"));
-                    tmpSibOne.updatePair(tmpSibTwo);
-
-                    myItems.add(tmpSibOne);
+                    PersistanceUtils.addPair(data.getExtras().getString("item1"), data.getExtras().getString("item2"));
 
                     Toast.makeText(getApplicationContext(),
                             R.string.item_created, Toast.LENGTH_SHORT).show();
-
-                    //serialize myItems
-                    Serializer.serialize(myItems);
                 }
             }
         }
