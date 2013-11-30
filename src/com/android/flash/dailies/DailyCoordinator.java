@@ -15,7 +15,7 @@ import java.util.Comparator;
  */
 public class DailyCoordinator {
     final private static DailyCoordinator SINGLETON = new DailyCoordinator();
-    public static final int DAILY_WORD_COUNT = 30;
+    public static final int DAILY_WORD_COUNT = 10;
 
     private ArrayList<SibOne> dailyItems;
     private ArrayList<SibOne> myItems;
@@ -30,7 +30,6 @@ public class DailyCoordinator {
     }
 
     public boolean isFinished() {
-        //todo removeme
         return getDailyWords(false).size() == 0;
     }
 

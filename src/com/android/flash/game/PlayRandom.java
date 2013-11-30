@@ -83,7 +83,7 @@ public class PlayRandom extends Activity {
 				input2.setVisibility(View.VISIBLE);
 				status = 1;
 			} else {
-				input2.setVisibility(View.GONE);
+				input2.setVisibility(View.INVISIBLE);
 				status = 0;
 			}
 			

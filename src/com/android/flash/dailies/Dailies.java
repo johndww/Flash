@@ -82,7 +82,7 @@ public class Dailies extends Activity {
                     input2.setVisibility(View.VISIBLE);
                     status = 1;
                 } else {
-                    input2.setVisibility(View.GONE);
+                    input2.setVisibility(View.INVISIBLE);
                     status = 0;
                 }
 
@@ -105,7 +105,7 @@ public class Dailies extends Activity {
             input2.setText(word.getName());
         }
 
-        input2.setVisibility(View.GONE);
+        input2.setVisibility(View.INVISIBLE);
         status = 0;
 
         dateView.setText(DateFormat.getDateInstance().format(word.getDate()));
