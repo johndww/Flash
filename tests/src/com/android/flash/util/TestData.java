@@ -18,12 +18,10 @@ public class TestData {
         boolean verbs = true;
 
         for (int i=0; i<10; i++) {
-            tmpSibOne = new SibOne("sibone data " + i);
-            tmpSibTwo = new SibTwo("sibtwo data " + i);
-            tmpSibOne.updatePair(tmpSibTwo);
+            tmpSibOne = new SibOne("sibone data " + i,  new SibTwo("sibtwo data " + i));
 
             if (verbs) {
-                tmpSibTwo.addVerb("siboneverb data " + i, "sibtwoverb data " + i);
+                tmpSibOne.getPair().addVerb("siboneverb data " + i, "sibtwoverb data " + i);
             }
 
             myItems.add(tmpSibOne);

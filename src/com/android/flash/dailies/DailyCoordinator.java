@@ -1,12 +1,9 @@
 package com.android.flash.dailies;
 
 import com.android.flash.SibOne;
-import com.android.flash.util.Serializer;
+import com.android.flash.util.PersistanceUtils;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * User: johnwright
@@ -18,7 +15,6 @@ public class DailyCoordinator {
     public static final int DAILY_WORD_COUNT = 10;
 
     private ArrayList<SibOne> dailyItems;
-    private ArrayList<SibOne> myItems;
     private int currentDailyDay;
 
     private DailyCoordinator() {
@@ -44,28 +40,20 @@ public class DailyCoordinator {
     }
 
     public void completeWord(final SibOne word, final boolean correct) {
-        if (dailyItems.contains(word)) {
-            ArrayList<SibOne> myItems = getMyItems();
+        if (dailyItems.remove(word)) {
 
-            if (!myItems.contains(word)) {
-                throw new RuntimeException("Trying to complete and persist a word, but can't find it");
-            }
+            word.incrPlayCount(correct);
+            word.setCompleted(true);
+            word.setCorrectToday(correct);
 
-            final int idx = myItems.indexOf(word);
-            final SibOne realWord = myItems.get(idx);
-
-            realWord.incrPlayCount(correct);
-            realWord.setCompleted(true);
-            realWord.setCorrectToday(correct);
-            dailyItems.remove(word);
-
-            //persist
-            saveMyItems(myItems);
+            PersistanceUtils.updateSibs();
+        } else {
+            throw new RuntimeException("Could not complete the word - didn't exist in dailies");
         }
     }
 
     private ArrayList<SibOne> getCompletedWords() {
-        ArrayList<SibOne> allItems = getMyItems();
+        Set<SibOne> allItems = PersistanceUtils.getSibOnesSet();
         final ArrayList<SibOne> completedItems = new ArrayList<SibOne>();
 
         for (SibOne tmpSibOne : allItems) {
@@ -91,7 +79,7 @@ public class DailyCoordinator {
      * init if its a new day or if we haven't set dailyItems yet for this load
      */
     private void initDailies() {
-        ArrayList<SibOne> myItems = getMyItems();
+        Set<SibOne> myItems = PersistanceUtils.getSibOnesSet();
         this.dailyItems = new ArrayList<SibOne>();
         boolean playedToday = false;
 
@@ -106,22 +94,6 @@ public class DailyCoordinator {
                     tmpSibOne.setDaily(false);
                 }
             }
-//
-//            if ((tmpSibOne.getPair().getVerbs() != null)) {
-//                for (SibOne tmpSibOne2 : tmpSibOne.getPair().getVerbs()) {
-//                    // add each verb sibone to words as well (for each eng
-//                    // word)
-//                    if (tmpSibOne2.isDaily()) {
-//                        if (tmpSibOne2.forToday()) {
-//                            playedToday = true;
-//                            this.dailyItems.add(tmpSibOne2);
-//                        } else {
-//                            tmpSibOne2.setDaily(false);
-//
-//                        }
-//                    }
-//                }
-//            }
         }
 
         if (this.dailyItems.isEmpty() && !playedToday) {
@@ -154,17 +126,17 @@ public class DailyCoordinator {
         }
 
         // state of myItems may have changed, need to persist
-        saveMyItems(myItems);
+        PersistanceUtils.updateSibs();
     }
 
-    private ArrayList<SibOne> getShuffledList(ArrayList<SibOne> myItems) {
+    private ArrayList<SibOne> getShuffledList(Collection<SibOne> myItems) {
         final ArrayList<SibOne> shuffledItems = new ArrayList<SibOne>();
         shuffledItems.addAll(myItems);
         Collections.shuffle(shuffledItems);
         return shuffledItems;
     }
 
-    private ArrayList<SibOne> getSortedListByPlayCount(ArrayList<SibOne> myItems) {
+    private ArrayList<SibOne> getSortedListByPlayCount(Collection<SibOne> myItems) {
         final ArrayList<SibOne> sortedItems = new ArrayList<SibOne>();
         sortedItems.addAll(myItems);
 
@@ -183,18 +155,6 @@ public class DailyCoordinator {
             }
         });
         return sortedItems;
-    }
-
-    private ArrayList<SibOne> getMyItems() {
-        if (this.myItems == null) {
-            this.myItems = Serializer.deserialize();
-        }
-        return this.myItems;
-    }
-
-    private void saveMyItems(final ArrayList<SibOne> myItems) {
-        this.myItems = myItems;
-        Serializer.serialize(myItems);
     }
 
     private int getToday() {

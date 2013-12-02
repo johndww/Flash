@@ -11,15 +11,12 @@ public class Item implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-    private UUID uniqueId;
+    private UUID uniqueId = UUID.randomUUID();
     private int correct;
     private int incorrect;
     private boolean correctToday;
 
     public UUID getUniqueId() {
-        if (this.uniqueId == null) {
-            this.uniqueId = UUID.randomUUID();
-        }
         return this.uniqueId;
     }
 

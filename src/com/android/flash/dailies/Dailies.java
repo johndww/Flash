@@ -9,6 +9,7 @@ import com.android.flash.SibOne;
 import com.android.flash.game.Game;
 import com.android.flash.game.GameType;
 import com.android.flash.util.Fconstant;
+import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.Serializer;
 
 import java.text.DateFormat;
@@ -121,7 +122,7 @@ public class Dailies extends Activity {
 
         if (type != GameType.INIT) {
             ArrayList<SibOne> myItems = null;
-            myItems = Serializer.deserialize();
+            myItems = PersistanceUtils.getSibOnesList();
             myGame = new Game(myItems, type, lang, false);
         }
 

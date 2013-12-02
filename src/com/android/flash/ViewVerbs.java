@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.android.flash.sibs.SibOneAdapter;
+import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.Serializer;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class ViewVerbs extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        myItems = Serializer.deserialize();
+        myItems = PersistanceUtils.getSibOnesList();
 		position = getIntent().getExtras().getInt("position");
 		myVerbs = myItems.get(position).getPair().getVerbs();
 
@@ -46,13 +47,13 @@ public class ViewVerbs extends ListActivity {
 				.show();
 	}
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.layout.verbmenu, menu);
-	}
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.layout.verbmenu, menu);
+    }
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -76,17 +77,19 @@ public class ViewVerbs extends ListActivity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 
-									// Delete the entry
+									// Edit the entry
 									Toast.makeText(getApplicationContext(),
 											"Edited", Toast.LENGTH_LONG)
 											.show();
-									
-									myVerbs.get(info.position).setName(((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim());
-									myVerbs.get(info.position).getPair().setName(((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim());
+
+                                    final String sibOneName = ((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim();
+                                    final String sibTwoName = ((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim();
+                                    myVerbs.get(info.position).setName(sibOneName);
+                                    myVerbs.get(info.position).getPair().setName(sibTwoName);
 									
 									sibOneAdapter.notifyDataSetChanged();
                                     //serialize myItems
-                                    Serializer.serialize(myItems);
+                                    PersistanceUtils.updateSibs();
 
 								}
 
@@ -119,7 +122,7 @@ public class ViewVerbs extends ListActivity {
 									sibOneAdapter.notifyDataSetChanged();
 
                                     //serialize myItems
-                                    Serializer.serialize(myItems);
+                                    PersistanceUtils.updateSibs();
 
 								}
 

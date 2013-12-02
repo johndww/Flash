@@ -21,11 +21,9 @@ import com.android.flash.sibs.SibOneAdapter;
 import com.android.flash.sibs.SibTwoAdapter;
 import com.android.flash.sibs.SibTwoComparator;
 import com.android.flash.util.Fconstant;
+import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.Serializer;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,10 +45,13 @@ public class ListWords extends ListActivity {
 			if (requestCode == Fconstant.REQUEST_ADDVERB) {
 				//add a verb (still need to check if the data is there
 				if ((data.hasExtra("item1")) && (data.hasExtra("item2"))) {
-					myItems.get(data.getExtras().getInt("position")).getPair().addVerb(data.getExtras().getString("item1"),data.getExtras().getString("item2"));
-					
-					FileOutputStream fos;
-					Serializer.serialize(myItems);
+                    final String verbSibOneName = data.getExtras().getString("item1");
+                    final String verbSibTwoName = data.getExtras().getString("item2");
+                    final SibOne sibOne = myItems.get(data.getExtras().getInt("position"));
+
+                    sibOne.getPair().addVerb(verbSibOneName, verbSibTwoName);
+
+                    PersistanceUtils.updateSibs();
 					
 					Intent intent = new Intent(this, ViewWord.class);
 					intent.putExtra("position", data.getExtras().getInt("position"));
@@ -63,7 +64,7 @@ public class ListWords extends ListActivity {
 	@SuppressWarnings("unchecked")
 	public void onResume() {
         super.onResume();
-		myItems = Serializer.deserialize();
+		myItems = PersistanceUtils.getSibOnesList();
 		if (myItems != null) {
 			myItemsSorted = (ArrayList<SibOne>) myItems.clone();
 			//set our adapter based on the type of list the user selected on the home page
@@ -187,23 +188,27 @@ public class ListWords extends ListActivity {
 
 									Toast.makeText(getApplicationContext(),
 											"Edited", Toast.LENGTH_LONG).show();
-									
-									//this is a generic way to save for a sibOne or sibTwo page
-									int tmpIndex = myItems.indexOf(myItemsSorted.get(info.position));
-									
-									myItems.get(tmpIndex).setName(((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim());
-									myItems.get(tmpIndex).getPair().setName(((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim());
-									
-									myItemsSorted.get(info.position).setName(((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim());
-									myItemsSorted.get(info.position).getPair().setName(((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim());
-									
+
+                                    final SibOne sibOne = myItemsSorted.get(info.position);
+                                    int sibIndexMyItems = myItems.indexOf(sibOne);
+
+                                    final String sibOneName = ((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim();
+                                    final String sibTwoName = ((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim();
+
+                                    sibOne.setName(sibOneName);
+                                    sibOne.getPair().setName(sibTwoName);
+
+                                    PersistanceUtils.updateSibs();
+
+                                    //update the displays sibs
+                                    sibOne.setName(sibOneName);
+                                    sibOne.getPair().setName(sibTwoName);
+
 									if (sibOneAdapter == null) {
 										sibTwoAdapter.notifyDataSetChanged();
 									} else {
 										sibOneAdapter.notifyDataSetChanged();
 									}
-									Serializer.serialize(myItems);
-
 								}
 
 							}).setNegativeButton("Cancel", null).show();
@@ -230,19 +235,20 @@ public class ListWords extends ListActivity {
 							int tmpIndex = myItems.indexOf(myItemsSorted.get(info.position));
 
 							myItemsSorted.remove(info.position);
-							myItems.remove(tmpIndex);
+							final SibOne deletedSibOne = myItems.remove(tmpIndex);
+                            PersistanceUtils.deletePair(deletedSibOne.getUniqueId());
 							
 							if (sibOneAdapter == null) {
 								sibTwoAdapter.notifyDataSetChanged();
 							} else {
 								sibOneAdapter.notifyDataSetChanged();
 							}
-
-							try {
-								Serializer.serialize(myItems);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+//
+//							try {
+//								Serializer.serialize(myItems);
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							}
 							
 
 						}

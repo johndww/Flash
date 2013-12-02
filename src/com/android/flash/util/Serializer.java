@@ -7,8 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * A static class used to persist SibOne data ArrayLists
@@ -32,7 +31,7 @@ public class Serializer {
      * @param objToSerialize
      *
      */
-    public static void serialize(ArrayList<SibOne> objToSerialize) {
+    protected static void serialize(Collection<SibOne> objToSerialize) {
         if (!objToSerialize.isEmpty()) {
             Gson gson = new Gson() ;
             String json = gson.toJson(objToSerialize);
@@ -76,18 +75,28 @@ public class Serializer {
         }
     }
 
-    /**
-     * Deserializes an ArrayList<SibOne> myItems. Needs a FileInputStream param.
-     *
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static ArrayList<SibOne> deserialize() {
-        ArrayList<SibOne> deserializedObject = null;
+    protected static Set<SibOne> deserializeAsSet() {
+        Set<SibOne> myItems = new HashSet<SibOne>();
 
+        myItems.addAll(deserialize().values());
+        return myItems;
+    }
+
+    protected static Map<UUID, SibOne> deserializeAsMap() {
+        return deserialize();
+    }
+
+    protected static ArrayList<SibOne> deserializeAsList() {
+        ArrayList<SibOne> myItems = new ArrayList<SibOne>();
+
+        myItems.addAll(deserialize().values());
+        return myItems;
+    }
+
+    private static Map<UUID, SibOne> deserialize() {
+        final Map<UUID, SibOne> myItems = new HashMap<UUID, SibOne>();
         try {
             String state = Environment.getExternalStorageState();
-
             if (Environment.MEDIA_MOUNTED.equals(state)) {
                 // We can read and write the media
                 File sdCard = Environment.getExternalStorageDirectory();
@@ -99,15 +108,14 @@ public class Serializer {
                 JsonArray jsonArray = parser.parse(json).getAsJsonArray();
 
                 Gson gson = new Gson() ;
-                deserializedObject = new ArrayList<SibOne>();
                 for (int i=0; i<jsonArray.size(); i++) {
-                    deserializedObject.add(gson.fromJson(jsonArray.get(i), SibOne.class));
-
+                    final SibOne sibOne = gson.fromJson(jsonArray.get(i), SibOne.class);
+                    myItems.put(sibOne.getUniqueId(), sibOne);
                 }
             }
         } catch (Exception e) {
-
+             System.out.println("error deserializing " +  e);
         }
-        return deserializedObject;
+        return myItems;
     }
 }

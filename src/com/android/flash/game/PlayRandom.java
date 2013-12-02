@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.android.flash.R;
 import com.android.flash.SibOne;
 import com.android.flash.util.Fconstant;
+import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.Serializer;
 
 import java.text.DateFormat;
@@ -126,7 +127,7 @@ public class PlayRandom extends Activity {
 		
 		if (type != GameType.INIT) {
             ArrayList<SibOne> myItems = null;
-            myItems = Serializer.deserialize();
+            myItems = PersistanceUtils.getSibOnesList();
             myGame = new Game(myItems, type, lang, verbs);
         }
 		
