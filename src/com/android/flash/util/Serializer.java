@@ -75,22 +75,8 @@ public class Serializer {
         }
     }
 
-    protected static Set<SibOne> deserializeAsSet() {
-        Set<SibOne> myItems = new HashSet<SibOne>();
-
-        myItems.addAll(deserialize().values());
-        return myItems;
-    }
-
     protected static Map<UUID, SibOne> deserializeAsMap() {
         return deserialize();
-    }
-
-    protected static ArrayList<SibOne> deserializeAsList() {
-        ArrayList<SibOne> myItems = new ArrayList<SibOne>();
-
-        myItems.addAll(deserialize().values());
-        return myItems;
     }
 
     private static Map<UUID, SibOne> deserialize() {
