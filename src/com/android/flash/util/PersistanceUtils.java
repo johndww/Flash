@@ -15,7 +15,7 @@ public class PersistanceUtils {
     static Map<UUID, SibOne> MY_ITEMS;
 
     public static boolean addPair(final String sibOneName, final String sibTwoName) {
-        final SibOne sibOne = new SibOne(sibOneName, new SibTwo(sibTwoName));
+        final SibOne sibOne = new SibOne(sibOneName, new SibTwo(sibTwoName), 0);
 
         final Map<UUID, SibOne> myItems = getSibOnesMap();
         myItems.put(sibOne.getUniqueId(), sibOne);

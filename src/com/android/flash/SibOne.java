@@ -11,14 +11,17 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
 	private final Date date;
     private boolean daily;
     private int dailyDate;
-    private boolean completed;
+    private int dailyStreak;
+    private int dailyPriority;
+    private boolean completedDaily;
     public final static SibOne EMPTY = new SibOne(true);
 
-	public SibOne(String name, final SibTwo sibTwo) {
+	public SibOne(String name, final SibTwo sibTwo, int priority) {
 		this.name = name;
         this.sibTwo = sibTwo;
 		Calendar cal = Calendar.getInstance();
 		this.date = cal.getTime();
+        this.dailyPriority = priority;
 	}
 
     private SibOne(final boolean empty) {
@@ -57,15 +60,15 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
         if (enable) {
             this.dailyDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         }
-        setCompleted(false);
+        setCompletedDaily(false);
     }
 
-    public void setCompleted(final boolean status) {
-        this.completed = status;
+    public void setCompletedDaily(final boolean status) {
+        this.completedDaily = status;
     }
 
     public boolean isCompleted() {
-        return this.completed;
+        return this.completedDaily;
     }
 
     public boolean forToday() {
@@ -98,4 +101,32 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
     public int compareTo(SibOne o) {
 		return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
 	}
+
+    public int getDailyStreak() {
+        return this.dailyStreak;
+    }
+
+    public void resetDailyStreak() {
+        this.dailyStreak = 0;
+    }
+
+    public int getDailyPriority() {
+        return this.dailyPriority;
+    }
+
+    public void setForToday() {
+        this.dailyDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    }
+
+    public void incrPriority() {
+        this.dailyPriority++;
+    }
+
+    public void updateStreak(boolean correct) {
+        if (correct) {
+            this.dailyStreak++;
+        } else {
+            this.dailyStreak = 0;
+        }
+    }
 }

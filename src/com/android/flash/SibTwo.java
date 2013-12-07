@@ -2,12 +2,6 @@ package com.android.flash;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-
-
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 public class SibTwo extends Item implements Serializable {
 	/**
@@ -25,7 +19,7 @@ public class SibTwo extends Item implements Serializable {
 	}
 	
 	public void addVerb(String item1, String item2) {
-		SibOne tmpSibOne = new SibOne(item1, new SibTwo(item2));
+		SibOne tmpSibOne = new SibOne(item1, new SibTwo(item2), 0);
 
 		if (myVerbs == null) {
 			myVerbs = new ArrayList<SibOne>();
