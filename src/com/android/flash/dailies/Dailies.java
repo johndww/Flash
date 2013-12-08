@@ -28,6 +28,8 @@ public class Dailies extends Activity {
     private TextView input2;
     private TextView remaining;
     private TextView dateView;
+    private TextView streakView;
+    private TextView historyView;
     private int status = 0;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class Dailies extends Activity {
         input2 = (TextView) findViewById(R.id.input2);
         remaining = (TextView) findViewById(R.id.remaining);
         dateView = (TextView) findViewById(R.id.date);
+        streakView = (TextView) findViewById(R.id.streak);
+        historyView = (TextView) findViewById(R.id.history);
 
         if (COORDINATOR.isFinished()) {
             super.finish();
@@ -110,6 +114,8 @@ public class Dailies extends Activity {
         status = 0;
 
         dateView.setText(DateFormat.getDateInstance().format(word.getDate()));
+        historyView.setText("H: " + word.getCorrectCount() + "/" + word.getPlayedCount());
+        streakView.setText("S: " + word.getDailyStreak());
     }
 
     /**

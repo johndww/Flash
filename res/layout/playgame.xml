@@ -143,5 +143,16 @@
         android:layout_alignBottom="@+id/restart"
         android:layout_alignParentLeft="true"
         android:text="@string/verbs" />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@+id/history"
+            android:id="@+id/history" android:layout_alignLeft="@+id/linearLayout1" android:layout_above="@+id/date"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@+id/streak"
+            android:id="@+id/streak" android:layout_alignLeft="@+id/linearLayout1"
+            android:layout_above="@+id/history"/>
 
 </RelativeLayout>

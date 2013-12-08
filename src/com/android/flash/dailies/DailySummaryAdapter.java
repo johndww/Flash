@@ -42,8 +42,10 @@ public class DailySummaryAdapter extends ArrayAdapter<SibOne> {
 
         if (sibOne != null) {
             TextView nameTextView = (TextView) view.findViewById(R.id.word_text_view);
+            TextView streakAndHistoryTextView = (TextView) view.findViewById(R.id.streak);
             ImageView imageView = (ImageView) view.findViewById(R.id.icon);
-            nameTextView.setText(sibOne.getName() + " " + sibOne.getCorrectCount() + "/" + sibOne.getPlayedCount());
+            nameTextView.setText(sibOne.getName());
+            streakAndHistoryTextView.setText("H:" + sibOne.getCorrectCount() + "/" + sibOne.getPlayedCount() + "  S:" + sibOne.getDailyStreak());
             if (sibOne.getCorrectToday()) {
                 imageView.setImageResource(R.drawable.checkbox_on_background);
             } else {
