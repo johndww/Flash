@@ -2,7 +2,6 @@ package com.android.flash;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,9 +43,11 @@ public class FlashActivity extends Activity {
         final Button button = (Button) findViewById(R.id.dailies);
 
         if (finished) {
-            button.setBackgroundColor(0xFF00FF00);
+            button.setBackgroundResource(R.drawable.dailies_comp);
+            //button.setBackgroundColor(0xFF00FF00);
         } else {
-            button.setBackgroundColor(Color.RED);
+            button.setBackgroundResource(R.drawable.dailies_incomp);
+            //button.setBackgroundColor(Color.RED);
         }
     }
 
