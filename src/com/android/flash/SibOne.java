@@ -5,7 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SibOne extends Item implements Serializable, Comparable<SibOne> {
-	private static final long serialVersionUID = 1L;
+    public final static SibOne EMPTY = new SibOne(true);
+    private static final long serialVersionUID = 1L;
     private String name;
 	private final SibTwo sibTwo;
 	private final Date date;
@@ -14,14 +15,16 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
     private int dailyStreak;
     private int dailyPriority;
     private boolean completedDaily;
-    public final static SibOne EMPTY = new SibOne(true);
+    private boolean synced;
+    private int serverId;
 
-	public SibOne(String name, final SibTwo sibTwo, int priority) {
+	public SibOne(String name, final SibTwo sibTwo, int priority, int serverId) {
 		this.name = name;
         this.sibTwo = sibTwo;
 		Calendar cal = Calendar.getInstance();
 		this.date = cal.getTime();
         this.dailyPriority = priority;
+        this.serverId = serverId;
 	}
 
     private SibOne(final boolean empty) {
@@ -37,6 +40,14 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
 	public Date getDate() {
 		return date;
 	}
+
+    public int getServerId() {
+        return this.serverId;
+    }
+
+    public void setServerId(final int serverId) {
+        this.serverId = serverId;
+    }
 
     public String getName() {
         return name;
@@ -67,8 +78,16 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
         this.completedDaily = status;
     }
 
+    public void setSynced() {
+        this.synced = true;
+    }
+
     public boolean isCompleted() {
         return this.completedDaily;
+    }
+
+    public boolean isSynced() {
+        return this.synced;
     }
 
     public boolean forToday() {

@@ -18,7 +18,7 @@ public class TestData {
         boolean verbs = true;
 
         for (int i=0; i<10; i++) {
-            tmpSibOne = new SibOne("sibone data " + i,  new SibTwo("sibtwo data " + i), 0);
+            tmpSibOne = new SibOne("sibone data " + i,  new SibTwo("sibtwo data " + i), 0, 0);
 
             if (verbs) {
                 tmpSibOne.getPair().addVerb("siboneverb data " + i, "sibtwoverb data " + i);

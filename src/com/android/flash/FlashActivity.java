@@ -13,8 +13,14 @@ import com.android.flash.dailies.DailyCoordinator;
 import com.android.flash.dailies.DailySummary;
 import com.android.flash.game.PlayRandom;
 import com.android.flash.listwords.ListWords;
+import com.android.flash.sync.ResponseCode;
+import com.android.flash.sync.WordSyncer;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.PersistanceUtils;
+import com.android.flash.util.SibCollectionUtils;
+
+import java.io.IOException;
+import java.util.Set;
 
 public class FlashActivity extends Activity {
 
@@ -63,10 +69,22 @@ public class FlashActivity extends Activity {
      */
     public void onClick(View v) {
 
-        Intent intent = null;
+        Intent intent;
         int request_id = 0;
 
         switch (v.getId()) {
+            case R.id.sync:
+                final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords();
+                try {
+                    final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems);
+                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer();
+
+                    Toast.makeText(getApplicationContext(), "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                     throw new RuntimeException("error communicating with server" + e);
+                }
+
+                break;
             case R.id.dailies:
                 final boolean finished = DailyCoordinator.get().isFinished();
                 if (finished) {

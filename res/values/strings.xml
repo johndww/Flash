@@ -11,6 +11,9 @@
     <string name="create_item_title">Create an Item</string>
     <string name="add_button">Add</string>
     <string name="item_created">Item Created</string>
+    <string name="synced">Synced</string>
+    <string name="failed_synced">Failed Sync</string>
+    <string name="noSyncData">No new data to sync</string>
     <string name="eng_play_button">List Word1(Eng)</string>
     <string name="list_button">List Words</string>
     <string name="itemTitle1">English</string>

@@ -19,7 +19,7 @@ public class SibTwo extends Item implements Serializable {
 	}
 	
 	public void addVerb(String item1, String item2) {
-		SibOne tmpSibOne = new SibOne(item1, new SibTwo(item2), 0);
+		SibOne tmpSibOne = new SibOne(item1, new SibTwo(item2), 0, 0);
 
 		if (myVerbs == null) {
 			myVerbs = new ArrayList<SibOne>();

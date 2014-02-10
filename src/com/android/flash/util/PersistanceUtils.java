@@ -15,7 +15,7 @@ public class PersistanceUtils {
     static Map<UUID, SibOne> MY_ITEMS;
 
     public static boolean addPair(final String sibOneName, final String sibTwoName) {
-        final SibOne sibOne = new SibOne(sibOneName, new SibTwo(sibTwoName), 0);
+        final SibOne sibOne = new SibOne(sibOneName, new SibTwo(sibTwoName), 0, 0);
 
         final Map<UUID, SibOne> myItems = getSibOnesMap();
         myItems.put(sibOne.getUniqueId(), sibOne);
@@ -23,6 +23,20 @@ public class PersistanceUtils {
         return true;
     }
 
+    public static int[] addWords(final Collection<SibOne> words) {
+        final Map<UUID, SibOne> myItems = getSibOnesMap();
+
+        int serverIds[] = new int[words.size()];
+
+        int i = 0;
+        for (final SibOne sibOne : words) {
+            myItems.put(sibOne.getUniqueId(), sibOne);
+            serverIds[i] = sibOne.getServerId();
+            i++;
+        }
+        save(myItems);
+        return serverIds;
+    }
 
     public static boolean deletePair(final UUID uniqueID) {
         final Map<UUID, SibOne> myItems = getSibOnesMap();
@@ -32,7 +46,7 @@ public class PersistanceUtils {
     }
 
     /**
-     * Updates a sibOne and persists it.  SibOne name must not be changed.
+     * Updates all sibOne and persists the changes. Will not add new sibs, only current
      */
     public static boolean updateSibs() {
         final Map<UUID, SibOne> myItems = getSibOnesMap();
