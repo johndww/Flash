@@ -3,6 +3,7 @@ package com.android.flash.sync;
 import android.widget.Toast;
 import com.android.flash.R;
 import com.android.flash.SibOne;
+import com.android.flash.data.Data;
 import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.SibCollectionUtils;
 import com.google.gson.Gson;
@@ -29,18 +30,8 @@ import java.util.Set;
  */
 public class WordSyncer {
 
-    public static final String URL = "http://3d-sign.com/john/flash/flash_sync.php";
+    public static final String URL = Data.URL.toString();
     public static final Gson GSON = new GsonBuilder().registerTypeAdapter(SibOne.class, new SibOneJsonSerializer()).create();
-
-    // need gson/json file transfer setup
-    // -- construct json JSONObject
-    // -- actually, create a gson adapter for a sibone that will construct the json we need
-
-    // client sends all new added words to server
-    // -- client updates sync'd bit
-    // client requests all new added words from server
-    // -- client sends back updated uid's to server
-
 
     public static ResponseCode syncNewWordsToServer(final Set<SibOne> myItems)
             throws IOException {
