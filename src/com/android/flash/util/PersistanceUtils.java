@@ -1,9 +1,15 @@
 package com.android.flash.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 import com.android.flash.SibOne;
 import com.android.flash.SibTwo;
-
-import java.util.*;
 
 /**
  * User: johnwright

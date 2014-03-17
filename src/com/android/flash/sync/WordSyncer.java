@@ -91,4 +91,30 @@ public class WordSyncer {
         String response = httpclient.execute(httppost, new BasicResponseHandler());
         return response.equals("1");
     }
+
+    /**
+     * syncs up to the most recently published word pack
+     *
+     * ie: local has version 3, published max is v5. download v4 & v5 word packs
+     *
+     * @return response code from server sync
+     */
+    public static ResponseCode syncNewWordPacksFromServer() throws IOException {
+        final int maxVersion = SibCollectionUtils.getMaxVersion();
+
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpGet request = new HttpGet(URL + "?do=getNewWordPacks&v=" + maxVersion);
+        final String response = httpclient.execute(request, new BasicResponseHandler());
+
+        final SibOne[] newWords = GSON.fromJson(response, SibOne[].class);
+        if (newWords.length > 0) {
+
+            final List<SibOne> words = Arrays.asList(newWords);
+            SibCollectionUtils.setAsSynced(words);
+            PersistanceUtils.addWords(words);
+
+            return ResponseCode.ADDED_NEW_WORDS;
+        }
+        return ResponseCode.NO_WORDS;
+    }
 }

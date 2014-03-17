@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SibOne extends Item implements Serializable, Comparable<SibOne> {
+public class SibOne
+        extends Item
+        implements Serializable, Comparable<SibOne> {
     public final static SibOne EMPTY = new SibOne(true);
     private static final long serialVersionUID = 1L;
     private String name;
-	private final SibTwo sibTwo;
-	private final Date date;
+    private final SibTwo sibTwo;
+    private final Date date;
     private boolean daily;
     private int dailyDate;
     private int dailyStreak;
@@ -17,15 +19,17 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
     private boolean completedDaily;
     private boolean synced;
     private int serverId;
+    private int version;
 
-	public SibOne(String name, final SibTwo sibTwo, int priority, int serverId) {
-		this.name = name;
+    public SibOne(String name, final SibTwo sibTwo, int priority, int serverId) {
+        this.name = name;
         this.sibTwo = sibTwo;
-		Calendar cal = Calendar.getInstance();
-		this.date = cal.getTime();
+        Calendar cal = Calendar.getInstance();
+        this.date = cal.getTime();
         this.dailyPriority = priority;
         this.serverId = serverId;
-	}
+        this.version = 0;
+    }
 
     private SibOne(final boolean empty) {
         this.name = "Empty";
@@ -33,13 +37,17 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
         this.date = Calendar.getInstance().getTime();
     }
 
-	public SibTwo getPair() {
-		return this.sibTwo;
-	}
-	
-	public Date getDate() {
-		return date;
-	}
+    public int getVersion() {
+        return this.version;
+    }
+
+    public SibTwo getPair() {
+        return this.sibTwo;
+    }
+
+    public Date getDate() {
+        return date;
+    }
 
     public int getServerId() {
         return this.serverId;
@@ -118,8 +126,8 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
     }
 
     public int compareTo(SibOne o) {
-		return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
-	}
+        return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
+    }
 
     public int getDailyStreak() {
         return this.dailyStreak;
@@ -144,7 +152,8 @@ public class SibOne extends Item implements Serializable, Comparable<SibOne> {
     public void updateStreak(boolean correct) {
         if (correct) {
             this.dailyStreak++;
-        } else {
+        }
+        else {
             this.dailyStreak = 0;
         }
     }

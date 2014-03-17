@@ -1,15 +1,20 @@
 package com.android.flash;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.android.flash.dailies.Dailies;
 import com.android.flash.dailies.DailyCoordinator;
 import com.android.flash.dailies.DailySummary;
+import com.android.flash.data.Data;
 import com.android.flash.game.PlayRandom;
 import com.android.flash.listwords.ListWords;
 import com.android.flash.sync.ResponseCode;
@@ -27,6 +32,10 @@ public class FlashActivity extends Activity {
      * Home page for the Flash App
      */
     private static final int REQUEST_CREATE = 10;
+
+    public boolean admin = false;
+    public int adminTryCount = 0;
+    public int adminFailedAttempts = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,17 +83,36 @@ public class FlashActivity extends Activity {
         int request_id = 0;
 
         switch (v.getId()) {
-            case R.id.sync:
-                final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords();
-                try {
-                    final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems);
-                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer();
+            case R.id.sync_admin:
+                if (admin) {
+                    final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords();
+                    try {
+                        final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems);
+                        final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer();
 
-                    Toast.makeText(getApplicationContext(), "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                     throw new RuntimeException("error communicating with server" + e);
+                        Toast.makeText(getApplicationContext(), "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        throw new RuntimeException("error communicating with server" + e);
+                    }
                 }
 
+            case R.id.sync:
+                try {
+                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer();
+
+                    Toast.makeText(getApplicationContext(), "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                }
+                catch (IOException e) {
+                    throw new RuntimeException("error communicating with server" + e);
+                }
+
+                break;
+            case R.id.admin:
+                if (checkAndPromptAdminStatus()) {
+                    // they are admin, show admin panel
+                    final Button sync = (Button) findViewById(R.id.sync_admin);
+                    sync.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.dailies:
                 final boolean finished = DailyCoordinator.get().isFinished();
@@ -131,6 +159,68 @@ public class FlashActivity extends Activity {
                 break;
         }
 
+    }
+
+    private boolean checkAndPromptAdminStatus() {
+        if (adminFailedAttempts > 4) {
+            return false;
+        }
+        if (!admin && adminTryCount < 5) {
+            // they found the hidden button, trying to get admin, incr
+            this.adminTryCount++;
+            return false;
+        }
+        else if (!admin && adminTryCount >= 5) {
+            promptAndValidatePassword();
+            // reset try count regardless of correct/incorrect
+            this.adminTryCount = 0;
+        }
+        return this.admin;
+    }
+
+    private boolean promptAndValidatePassword() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("-");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                final String password = input.getText().toString();
+                if (verifyPin(password)) {
+                    loginSuccess();
+                }
+                else {
+                    loginFailure();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                loginFailure();
+            }
+        });
+
+        alert.show();
+        return false;
+    }
+
+    private void loginSuccess() {
+        this.admin = true;
+        this.adminFailedAttempts = 0;
+    }
+
+    private void loginFailure() {
+        this.adminFailedAttempts++;
+    }
+
+    private boolean verifyPin(final String password) {
+        return (Data.PIN.toString().equals(password));
     }
 
     @Override
