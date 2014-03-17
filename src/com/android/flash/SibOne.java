@@ -41,6 +41,10 @@ public class SibOne
         return this.version;
     }
 
+    public void setVersion(final int version) {
+        this.version = version;
+    }
+
     public SibTwo getPair() {
         return this.sibTwo;
     }
