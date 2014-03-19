@@ -107,7 +107,7 @@ public class WordSyncer {
         final String response = httpclient.execute(request, new BasicResponseHandler());
 
         final SibOne[] newWords = GSON.fromJson(response, SibOne[].class);
-        if (newWords.length > 0) {
+        if (newWords != null && newWords.length > 0) {
 
             final List<SibOne> words = Arrays.asList(newWords);
             SibCollectionUtils.setAsSynced(words);

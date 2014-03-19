@@ -100,8 +100,8 @@
             android:layout_height="50dp"
             android:text="SYNC Admin"
             android:onClick="onClick"
-            android:id="@+id/sync_admin" android:layout_gravity="center" android:textColor="#9c9a9b"
-            android:background="#ebebeb" android:visibility="invisible"/>
+            android:id="@+id/sync_admin" android:textColor="#9c9a9b"
+            android:background="#ebebeb" android:visibility="invisible" android:layout_marginTop="10dp"/>
 
     <Button
             android:layout_width="wrap_content"

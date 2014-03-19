@@ -95,12 +95,12 @@ public class FlashActivity extends Activity {
                         throw new RuntimeException("error communicating with server" + e);
                     }
                 }
-
+                break;
             case R.id.sync:
                 try {
                     final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer();
 
-                    Toast.makeText(getApplicationContext(), "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "From Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
                 }
                 catch (IOException e) {
                     throw new RuntimeException("error communicating with server" + e);
@@ -108,10 +108,8 @@ public class FlashActivity extends Activity {
 
                 break;
             case R.id.admin:
-                if (checkAndPromptAdminStatus()) {
-                    // they are admin, show admin panel
-                    final Button sync = (Button) findViewById(R.id.sync_admin);
-                    sync.setVisibility(View.VISIBLE);
+                if (!admin) {
+                    secretAdminAttempt();
                 }
                 break;
             case R.id.dailies:
@@ -161,24 +159,22 @@ public class FlashActivity extends Activity {
 
     }
 
-    private boolean checkAndPromptAdminStatus() {
+    private void secretAdminAttempt() {
         if (adminFailedAttempts > 4) {
-            return false;
+            return;
         }
         if (!admin && adminTryCount < 5) {
             // they found the hidden button, trying to get admin, incr
             this.adminTryCount++;
-            return false;
         }
         else if (!admin && adminTryCount >= 5) {
-            promptAndValidatePassword();
+            adminLogin();
             // reset try count regardless of correct/incorrect
             this.adminTryCount = 0;
         }
-        return this.admin;
     }
 
-    private boolean promptAndValidatePassword() {
+    private boolean adminLogin() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("-");
@@ -206,13 +202,15 @@ public class FlashActivity extends Activity {
             }
         });
 
-        alert.show();
+        alert.create().show();
         return false;
     }
 
     private void loginSuccess() {
         this.admin = true;
         this.adminFailedAttempts = 0;
+        final Button sync = (Button) findViewById(R.id.sync_admin);
+        sync.setVisibility(View.VISIBLE);
     }
 
     private void loginFailure() {
