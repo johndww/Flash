@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import com.android.flash.data.Data;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 public class CreateItem
         extends Activity {
@@ -12,6 +17,8 @@ public class CreateItem
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.createitem);
+
+        initAds();
     }
 
     /**
@@ -40,5 +47,17 @@ public class CreateItem
             setResult(RESULT_OK, data);
         }
         super.finish();
+    }
+
+    private void initAds() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdUnitId(Data.ADMOBID.toString());
+        mAdView.setAdSize(AdSize.BANNER);
+        //mAdView.setAdListener(new ToastAdListener(this));
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.ad);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layout.addView(mAdView, params);
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 }

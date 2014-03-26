@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -75,6 +75,13 @@
         android:text="@+id/remaining"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="105dp" />
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+            android:id="@id/ad" android:layout_above="@+id/gameTypeRadio" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp">
+    </RelativeLayout>
 
     <RadioGroup
         android:id="@+id/gameTypeRadio"

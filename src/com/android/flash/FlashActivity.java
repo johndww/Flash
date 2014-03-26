@@ -7,10 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.*;
 import com.android.flash.dailies.Dailies;
 import com.android.flash.dailies.DailyCoordinator;
 import com.android.flash.dailies.DailySummary;
@@ -22,6 +19,9 @@ import com.android.flash.sync.WordSyncer;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.SibCollectionUtils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
 import java.util.Set;
@@ -45,6 +45,20 @@ public class FlashActivity extends Activity {
 
         initDailyButton();
 
+        initAds();
+
+    }
+
+    private void initAds() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdUnitId(Data.ADMOBID.toString());
+        mAdView.setAdSize(AdSize.BANNER);
+        //mAdView.setAdListener(new ToastAdListener(this));
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.ad);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layout.addView(mAdView, params);
+        mAdView.loadAd(new AdRequest.Builder().build());
     }
 
     private void initDailyButton() {

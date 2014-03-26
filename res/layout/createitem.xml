@@ -34,4 +34,10 @@
         android:onClick="onClick"
         android:text="@string/add_button" />
 
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+            android:id="@id/ad" android:layout_centerHorizontal="true">
+    </RelativeLayout>
+
 </LinearLayout>

@@ -95,7 +95,17 @@
             android:onClick="onClick"
             android:id="@+id/sync" android:layout_gravity="center" android:textColor="#9c9a9b"
             android:background="#ebebeb"/>
-    <Button
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:id="@+id/admin" android:layout_gravity="left|center_vertical"
+                android:background="@android:color/transparent"/>
+        <Button
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="SYNC Admin"
@@ -103,11 +113,10 @@
             android:id="@+id/sync_admin" android:textColor="#9c9a9b"
             android:background="#ebebeb" android:visibility="invisible" android:layout_marginTop="10dp"/>
 
-    <Button
+        </LinearLayout>
+    <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:id="@+id/admin" android:layout_gravity="left|center_vertical"
-            android:background="@android:color/transparent"/>
+            android:layout_height="wrap_content" android:layout_gravity="center" android:id="@+id/ad">
+    </RelativeLayout>
 
 </LinearLayout>

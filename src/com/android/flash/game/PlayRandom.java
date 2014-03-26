@@ -5,12 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.flash.R;
 import com.android.flash.SibOne;
+import com.android.flash.data.Data;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.PersistanceUtils;
 import com.android.flash.util.Serializer;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -34,6 +39,8 @@ public class PlayRandom extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.playgame);
+
+        initAds();
 		
 		//textfields that are updated on each button press
 		input1 = (TextView) findViewById(R.id.input1);
@@ -53,6 +60,18 @@ public class PlayRandom extends Activity {
 		
 		super.onCreate(savedInstanceState);
 	}
+
+    private void initAds() {
+        AdView mAdView = new AdView(this);
+        mAdView.setAdUnitId(Data.ADMOBID.toString());
+        mAdView.setAdSize(AdSize.BANNER);
+        //mAdView.setAdListener(new ToastAdListener(this));
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.ad);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layout.addView(mAdView, params);
+        mAdView.loadAd(new AdRequest.Builder().build());
+    }
 
 	public void onClick(View v) {
 		switch (v.getId()) {
