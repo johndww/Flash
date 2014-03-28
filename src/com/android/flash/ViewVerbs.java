@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.android.flash.sibs.SibOneAdapter;
 import com.android.flash.util.PersistanceUtils;
-import com.android.flash.util.Serializer;
 
 import java.util.ArrayList;
 
@@ -29,7 +28,7 @@ public class ViewVerbs extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        myItems = PersistanceUtils.getSibOnesList();
+        myItems = PersistanceUtils.getSibOnesList(getApplicationContext());
 		position = getIntent().getExtras().getInt("position");
 		myVerbs = myItems.get(position).getPair().getVerbs();
 
@@ -89,7 +88,7 @@ public class ViewVerbs extends ListActivity {
 									
 									sibOneAdapter.notifyDataSetChanged();
                                     //serialize myItems
-                                    PersistanceUtils.updateSibs();
+                                    PersistanceUtils.updateSibs(getApplicationContext());
 
 								}
 
@@ -122,7 +121,7 @@ public class ViewVerbs extends ListActivity {
 									sibOneAdapter.notifyDataSetChanged();
 
                                     //serialize myItems
-                                    PersistanceUtils.updateSibs();
+                                    PersistanceUtils.updateSibs(getApplicationContext());
 
 								}
 

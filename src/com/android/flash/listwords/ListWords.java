@@ -22,7 +22,6 @@ import com.android.flash.sibs.SibTwoAdapter;
 import com.android.flash.sibs.SibTwoComparator;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.PersistanceUtils;
-import com.android.flash.util.Serializer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +50,7 @@ public class ListWords extends ListActivity {
 
                     sibOne.getPair().addVerb(verbSibOneName, verbSibTwoName);
 
-                    PersistanceUtils.updateSibs();
+                    PersistanceUtils.updateSibs(getApplicationContext());
 					
 					Intent intent = new Intent(this, ViewWord.class);
 					intent.putExtra("position", data.getExtras().getInt("position"));
@@ -64,8 +63,8 @@ public class ListWords extends ListActivity {
 	@SuppressWarnings("unchecked")
 	public void onResume() {
         super.onResume();
-		myItems = PersistanceUtils.getSibOnesList();
-		if (myItems != null) {
+		myItems = PersistanceUtils.getSibOnesList(getApplicationContext());
+		if (myItems != null && myItems.size() > 0) {
 			myItemsSorted = (ArrayList<SibOne>) myItems.clone();
 			//set our adapter based on the type of list the user selected on the home page
 			switch(getIntent().getExtras().getInt("listtype")) {
@@ -198,7 +197,7 @@ public class ListWords extends ListActivity {
                                     sibOne.setName(sibOneName);
                                     sibOne.getPair().setName(sibTwoName);
 
-                                    PersistanceUtils.updateSibs();
+                                    PersistanceUtils.updateSibs(getApplicationContext());
 
                                     //update the displays sibs
                                     sibOne.setName(sibOneName);
@@ -236,7 +235,7 @@ public class ListWords extends ListActivity {
 
 							myItemsSorted.remove(info.position);
 							final SibOne deletedSibOne = myItems.remove(tmpIndex);
-                            PersistanceUtils.deletePair(deletedSibOne.getUniqueId());
+                            PersistanceUtils.deletePair(deletedSibOne.getUniqueId(), getApplicationContext());
 							
 							if (sibOneAdapter == null) {
 								sibTwoAdapter.notifyDataSetChanged();

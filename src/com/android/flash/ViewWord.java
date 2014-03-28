@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.android.flash.util.PersistanceUtils;
-import com.android.flash.util.Serializer;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class ViewWord extends Activity {
 		setContentView(R.layout.viewsibone);
 
 		position = getIntent().getExtras().getInt("position");
-        myItems = PersistanceUtils.getSibOnesList();
+        myItems = PersistanceUtils.getSibOnesList(getApplicationContext());
 		sibone = myItems.get(position);
 
 		((TextView) findViewById(R.id.EngWord)).setText(sibone.getName());

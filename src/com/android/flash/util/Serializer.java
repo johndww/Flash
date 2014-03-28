@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import android.content.Context;
 import com.android.flash.SibOne;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -38,9 +39,10 @@ public class Serializer {
      * Puts a backup in the external storage as well.
      *
      * @param objToSerialize
+     * @param context
      *
      */
-    protected static void serialize(Collection<SibOne> objToSerialize) {
+    protected static void serialize(Collection<SibOne> objToSerialize, Context context) {
         if (!objToSerialize.isEmpty()) {
             Gson gson = new Gson() ;
             String json = gson.toJson(objToSerialize);
@@ -51,11 +53,14 @@ public class Serializer {
 
                 if (Environment.MEDIA_MOUNTED.equals(state)) {
                     // We can read and write the media
-                    File sdCard = Environment.getExternalStorageDirectory();
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjson"));
+//                    File sdCard = Environment.getExternalStorageDirectory();
+                    File externalFilesDir = context.getExternalFilesDir(null);
+                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(externalFilesDir.getAbsolutePath() + "/flashjson"));
                     os.writeObject(json);
                     os.flush();
                     os.close();
+                } else {
+                    // try to persist to internal storage
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -69,8 +74,9 @@ public class Serializer {
                     String state = Environment.getExternalStorageState();
 
                     if (Environment.MEDIA_MOUNTED.equals(state)) {
-                        File sdCard = Environment.getExternalStorageDirectory();
-                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(sdCard.getAbsolutePath() + "/flashjsonbackup"));
+//                    File sdCard = Environment.getExternalStorageDirectory();
+                        File externalFilesDir = context.getExternalFilesDir(null);
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(externalFilesDir.getAbsolutePath() + "/flashjsonbackup"));
                         os.writeObject(json);
                         os.flush();
                         os.close();
@@ -84,18 +90,19 @@ public class Serializer {
         }
     }
 
-    protected static Map<UUID, SibOne> deserializeAsMap() {
-        return deserialize();
+    protected static Map<UUID, SibOne> deserializeAsMap(Context context) {
+        return deserialize(context);
     }
 
-    private static Map<UUID, SibOne> deserialize() {
+    private static Map<UUID, SibOne> deserialize(Context context) {
         final Map<UUID, SibOne> myItems = new HashMap<UUID, SibOne>();
         try {
             String state = Environment.getExternalStorageState();
             if (Environment.MEDIA_MOUNTED.equals(state)) {
                 // We can read and write the media
-                File sdCard = Environment.getExternalStorageDirectory();
-                ObjectInputStream is = new ObjectInputStream(new FileInputStream(sdCard.getAbsolutePath() + "/flashjson/"));
+//                    File sdCard = Environment.getExternalStorageDirectory();
+                File externalFilesDir = context.getExternalFilesDir(null);
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(externalFilesDir.getAbsolutePath() + "/flashjson/"));
                 String json = (String) is.readObject();
                 is.close();
 

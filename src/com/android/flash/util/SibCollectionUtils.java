@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.content.Context;
 import com.android.flash.SibOne;
 
 /**
@@ -12,8 +13,8 @@ import com.android.flash.SibOne;
  * Time: 12:53 AM
  */
 public class SibCollectionUtils {
-    public static Set<SibOne> getUnSyncedWords() {
-        final Set<SibOne> myItems = PersistanceUtils.getSibOnesSet();
+    public static Set<SibOne> getUnSyncedWords(Context context) {
+        final Set<SibOne> myItems = PersistanceUtils.getSibOnesSet(context);
         final Set<SibOne> unSyncedItems = new HashSet<SibOne>();
 
         for (final SibOne sibOne : myItems) {
@@ -30,8 +31,14 @@ public class SibCollectionUtils {
         }
     }
 
-    public static int getMaxVersion() {
-        final Set<SibOne> myItems = PersistanceUtils.getSibOnesSet();
+    public static void setVersion(Collection<SibOne> unSyncedItems, final int version) {
+        for (final SibOne sibOne : unSyncedItems) {
+            sibOne.setVersion(version);
+        }
+    }
+
+    public static int getMaxVersion(Context context) {
+        final Set<SibOne> myItems = PersistanceUtils.getSibOnesSet(context);
 
         int maxVersion = 0;
         for (SibOne sibOne : myItems) {

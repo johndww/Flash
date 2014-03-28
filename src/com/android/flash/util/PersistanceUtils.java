@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import android.content.Context;
 import com.android.flash.SibOne;
 import com.android.flash.SibTwo;
 
@@ -20,17 +21,17 @@ public class PersistanceUtils {
     // TODO will only work if all persistance is done through here
     static Map<UUID, SibOne> MY_ITEMS;
 
-    public static boolean addPair(final String sibOneName, final String sibTwoName) {
+    public static boolean addPair(final String sibOneName, final String sibTwoName, Context context) {
         final SibOne sibOne = new SibOne(sibOneName, new SibTwo(sibTwoName), 0, 0);
 
-        final Map<UUID, SibOne> myItems = getSibOnesMap();
+        final Map<UUID, SibOne> myItems = getSibOnesMap(context);
         myItems.put(sibOne.getUniqueId(), sibOne);
-        save(myItems);
+        save(myItems, context);
         return true;
     }
 
-    public static int[] addWords(final Collection<SibOne> words) {
-        final Map<UUID, SibOne> myItems = getSibOnesMap();
+    public static int[] addWords(final Collection<SibOne> words, Context context) {
+        final Map<UUID, SibOne> myItems = getSibOnesMap(context);
 
         int serverIds[] = new int[words.size()];
 
@@ -40,42 +41,44 @@ public class PersistanceUtils {
             serverIds[i] = sibOne.getServerId();
             i++;
         }
-        save(myItems);
+        save(myItems, context);
         return serverIds;
     }
 
-    public static boolean deletePair(final UUID uniqueID) {
-        final Map<UUID, SibOne> myItems = getSibOnesMap();
+    public static boolean deletePair(final UUID uniqueID, Context context) {
+        final Map<UUID, SibOne> myItems = getSibOnesMap(context);
         myItems.remove(uniqueID);
-        save(myItems);
+        save(myItems, context);
         return true;
     }
 
     /**
      * Updates all sibOne and persists the changes. Will not add new sibs, only current
+     * @param context
      */
-    public static boolean updateSibs() {
-        final Map<UUID, SibOne> myItems = getSibOnesMap();
-        save(myItems);
+    public static boolean updateSibs(Context context) {
+        final Map<UUID, SibOne> myItems = getSibOnesMap(context);
+        save(myItems, context);
         return true;
     }
 
-    private static void save(Map<UUID, SibOne> myItems) {
+    private static void save(Map<UUID, SibOne> myItems, Context context) {
         MY_ITEMS = myItems;
-        Serializer.serialize(myItems.values());
+        Serializer.serialize(myItems.values(), context);
     }
 
     /**
      * Get a set of up to date sibs.
      * @return non null set
+     * @param context
      */
-    public static Set<SibOne> getSibOnesSet() {
+    public static Set<SibOne> getSibOnesSet(Context context) {
         Set<SibOne> myItemsSet =  new HashSet<SibOne>();
         if (MY_ITEMS != null) {
             myItemsSet.addAll(MY_ITEMS.values());
             return myItemsSet;
         }
-        MY_ITEMS = Serializer.deserializeAsMap();
+        MY_ITEMS = Serializer.deserializeAsMap(context);
         if (MY_ITEMS == null) {
             MY_ITEMS = new HashMap<UUID, SibOne>();
         }
@@ -85,12 +88,13 @@ public class PersistanceUtils {
     /**
      * Get a map of up to date sibs.
      * @return non null map
+     * @param context
      */
-    public static Map<UUID, SibOne> getSibOnesMap() {
+    public static Map<UUID, SibOne> getSibOnesMap(Context context) {
         if (MY_ITEMS != null) {
             return MY_ITEMS;
         }
-        MY_ITEMS = Serializer.deserializeAsMap();
+        MY_ITEMS = Serializer.deserializeAsMap(context);
         if (MY_ITEMS == null) {
             MY_ITEMS = new HashMap<UUID, SibOne>();
         }
@@ -100,15 +104,16 @@ public class PersistanceUtils {
      *
      * Get a set of up to date sibs as a list.
      * @return non null set
+     * @param context
      */
-    public static ArrayList<SibOne> getSibOnesList() {
+    public static ArrayList<SibOne> getSibOnesList(Context context) {
         ArrayList<SibOne> myItemsList;
         if (MY_ITEMS != null) {
             myItemsList = new ArrayList<SibOne>();
             myItemsList.addAll(MY_ITEMS.values());
             return myItemsList;
         }
-        MY_ITEMS = Serializer.deserializeAsMap();
+        MY_ITEMS = Serializer.deserializeAsMap(context);
         if (MY_ITEMS == null) {
             MY_ITEMS = new HashMap<UUID, SibOne>();
         }

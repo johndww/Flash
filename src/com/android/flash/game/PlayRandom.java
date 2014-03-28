@@ -12,7 +12,6 @@ import com.android.flash.SibOne;
 import com.android.flash.data.Data;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.PersistanceUtils;
-import com.android.flash.util.Serializer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -151,9 +150,9 @@ public class PlayRandom extends Activity {
 		boolean verbs = ((CheckBox)findViewById(R.id.verbs)).isChecked();
 		
 		if (type != GameType.INIT) {
-            ArrayList<SibOne> myItems = null;
-            myItems = PersistanceUtils.getSibOnesList();
-            myGame = new Game(myItems, type, lang, verbs);
+            ArrayList<SibOne> myItems;
+            myItems = PersistanceUtils.getSibOnesList(getApplicationContext());
+            myGame = new Game(myItems, type, lang, verbs, getApplicationContext());
         }
 		
 		//initialize the textfields

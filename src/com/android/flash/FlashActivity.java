@@ -2,6 +2,7 @@ package com.android.flash;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,7 +47,6 @@ public class FlashActivity extends Activity {
         initDailyButton();
 
         initAds();
-
     }
 
     private void initAds() {
@@ -62,15 +62,13 @@ public class FlashActivity extends Activity {
     }
 
     private void initDailyButton() {
-        final boolean finished = DailyCoordinator.get().isFinished();
+        final boolean finished = DailyCoordinator.get().isFinished(getApplicationContext());
         final Button button = (Button) findViewById(R.id.dailies);
 
         if (finished) {
             button.setBackgroundResource(R.drawable.dailies_comp);
-            //button.setBackgroundColor(0xFF00FF00);
         } else {
             button.setBackgroundResource(R.drawable.dailies_incomp);
-            //button.setBackgroundColor(Color.RED);
         }
     }
 
@@ -79,6 +77,7 @@ public class FlashActivity extends Activity {
      */
     protected void onPause() {
         super.onPause();
+        adminTryCount = 0;
     }
 
     /**
@@ -86,6 +85,7 @@ public class FlashActivity extends Activity {
      */
     protected void onResume() {
         super.onResume();
+        adminTryCount = 0;
     }
 
     /**
@@ -96,15 +96,16 @@ public class FlashActivity extends Activity {
         Intent intent;
         int request_id = 0;
 
+        final Context context = getApplicationContext();
         switch (v.getId()) {
             case R.id.sync_admin:
                 if (admin) {
-                    final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords();
+                    final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords(context);
                     try {
-                        final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems);
-                        final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer();
+                        final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems, context);
+                        final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer(context);
 
-                        Toast.makeText(getApplicationContext(), "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
                         throw new RuntimeException("error communicating with server" + e);
                     }
@@ -112,9 +113,9 @@ public class FlashActivity extends Activity {
                 break;
             case R.id.sync:
                 try {
-                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer();
+                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer(context);
 
-                    Toast.makeText(getApplicationContext(), "From Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "From Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
                 }
                 catch (IOException e) {
                     throw new RuntimeException("error communicating with server" + e);
@@ -127,13 +128,12 @@ public class FlashActivity extends Activity {
                 }
                 break;
             case R.id.dailies:
-                final boolean finished = DailyCoordinator.get().isFinished();
+                final boolean finished = DailyCoordinator.get().isFinished(context);
                 if (finished) {
                     //go to daily summary
                     intent = new Intent(this, DailySummary.class);
                     startActivity(intent);
                 } else {
-
                     //not isFinished yet, start the dailies page
                     intent = new Intent(this, Dailies.class);
                     startActivityForResult(intent, request_id);
@@ -242,7 +242,7 @@ public class FlashActivity extends Activity {
             if (requestCode == REQUEST_CREATE) {
                 if (data.hasExtra("item1") && data.hasExtra("item2")) {
                     // process the two strings returned
-                    PersistanceUtils.addPair(data.getExtras().getString("item1"), data.getExtras().getString("item2"));
+                    PersistanceUtils.addPair(data.getExtras().getString("item1"), data.getExtras().getString("item2"), getApplicationContext());
 
                     Toast.makeText(getApplicationContext(),
                             R.string.item_created, Toast.LENGTH_SHORT).show();

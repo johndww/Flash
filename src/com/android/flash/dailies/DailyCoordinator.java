@@ -1,5 +1,6 @@
 package com.android.flash.dailies;
 
+import android.content.Context;
 import com.android.flash.SibOne;
 import com.android.flash.util.PersistanceUtils;
 
@@ -25,22 +26,21 @@ public class DailyCoordinator {
         return SINGLETON;
     }
 
-    public boolean isFinished() {
-        return getDailyWords(false).size() == 0;
+    public boolean isFinished(Context context) {
+        return getDailyWords(false, context).size() == 0;
     }
 
-    public ArrayList<SibOne> getDailyWords(final boolean completed) {
+    public ArrayList<SibOne> getDailyWords(final boolean completed, Context context) {
         if (completed) {
-            return getCompletedWords();
+            return getCompletedWords(context);
         }
         if (this.dailyItems == null || currentDailyDay != getToday()) {
-            initDailies();
-            //initDailiesOriginalOld();
+            initDailies(context);
         }
-        return this.dailyItems;
+        return this.dailyItems != null ? this.dailyItems : new ArrayList<SibOne>(0);
     }
 
-    public void completeWord(final SibOne word, final boolean correct) {
+    public void completeWord(final SibOne word, final boolean correct, Context context) {
         if (dailyItems.remove(word)) {
 
             word.incrPlayCount(correct);
@@ -49,14 +49,14 @@ public class DailyCoordinator {
             word.incrPriority();
             word.updateStreak(correct);
 
-            PersistanceUtils.updateSibs();
+            PersistanceUtils.updateSibs(context);
         } else {
             throw new RuntimeException("Could not complete the word - didn't exist in dailies");
         }
     }
 
-    private ArrayList<SibOne> getCompletedWords() {
-        Set<SibOne> allItems = PersistanceUtils.getSibOnesSet();
+    private ArrayList<SibOne> getCompletedWords(Context context) {
+        Set<SibOne> allItems = PersistanceUtils.getSibOnesSet(context);
         final ArrayList<SibOne> completedItems = new ArrayList<SibOne>();
 
         for (SibOne tmpSibOne : allItems) {
@@ -77,8 +77,12 @@ public class DailyCoordinator {
         return completedItems;
     }
 
-    private void initDailies() {
-        final Set<SibOne> myItems = PersistanceUtils.getSibOnesSet();
+    private void initDailies(Context context) {
+        final Set<SibOne> myItems = PersistanceUtils.getSibOnesSet(context);
+        if (myItems.size() == 0) {
+            // no words yet!
+            return;
+        }
         this.dailyItems = new ArrayList<SibOne>(DAILY_WORD_COUNT);
         boolean playedToday = false;
 
@@ -121,7 +125,7 @@ public class DailyCoordinator {
 
             int i = 0;
             while (this.dailyItems.size() < DAILY_WORD_COUNT && itemPool.size() > 0) {
-                final SibOne sibOne = itemPool.remove(i);
+                final SibOne sibOne = itemPool.remove(0);
                 sibOne.setDaily(true);
                 sibOne.resetDailyStreak();
                 this.dailyItems.add(sibOne);
@@ -131,7 +135,7 @@ public class DailyCoordinator {
 
         this.currentDailyDay = getToday();
 
-        PersistanceUtils.updateSibs();
+        PersistanceUtils.updateSibs(context);
     }
 
     private void verifyStreakAndAddDaily(SibOne tmpSibOne) {
@@ -176,8 +180,8 @@ public class DailyCoordinator {
      * init if its a new day or if we haven't set dailyItems yet for this load
      */
     @Deprecated
-    private void initDailiesOriginalOld() {
-        Set<SibOne> myItems = PersistanceUtils.getSibOnesSet();
+    private void initDailiesOriginalOld(final Context context) {
+        Set<SibOne> myItems = PersistanceUtils.getSibOnesSet(context);
         this.dailyItems = new ArrayList<SibOne>();
         boolean playedToday = false;
 
@@ -224,7 +228,7 @@ public class DailyCoordinator {
         }
 
         // state of myItems may have changed, need to persist
-        PersistanceUtils.updateSibs();
+        PersistanceUtils.updateSibs(context);
     }
 
     private ArrayList<SibOne> getShuffledList(Collection<SibOne> myItems) {

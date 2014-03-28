@@ -1,7 +1,6 @@
 package com.android.flash.sync;
 
-import android.widget.Toast;
-import com.android.flash.R;
+import android.content.Context;
 import com.android.flash.SibOne;
 import com.android.flash.data.Data;
 import com.android.flash.util.PersistanceUtils;
@@ -18,7 +17,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,12 +31,12 @@ public class WordSyncer {
     public static final String URL = Data.URL.toString();
     public static final Gson GSON = new GsonBuilder().registerTypeAdapter(SibOne.class, new SibOneJsonSerializer()).create();
 
-    public static ResponseCode syncNewWordsToServer(final Set<SibOne> myItems)
+    public static ResponseCode syncNewWordsToServer(final Set<SibOne> unSyncedItems, Context context)
             throws IOException {
-        if (myItems.isEmpty()) {
+        if (unSyncedItems.isEmpty()) {
             return ResponseCode.NO_WORDS;
         }
-        String jsonItems = GSON.toJson(myItems);
+        String jsonItems = GSON.toJson(unSyncedItems);
         jsonItems = "{ \"sibs\": " + jsonItems + "}";
 
         HttpClient httpclient = new DefaultHttpClient();
@@ -49,16 +47,22 @@ public class WordSyncer {
 
         // Execute HTTP Post Request
         String response = httpclient.execute(httppost, new BasicResponseHandler());
-        if (response.equals("1")) {
-            // we synced successfully, mark all as synced and persist
-            SibCollectionUtils.setAsSynced(myItems);
-            PersistanceUtils.updateSibs();
-            return ResponseCode.PUT_NEW_WORDS;
+        try {
+            final int responseWordVersion = Integer.parseInt(response);
+            if (responseWordVersion > 0) {
+                // we synced successfully, mark all as synced and persist
+                SibCollectionUtils.setAsSynced(unSyncedItems);
+                SibCollectionUtils.setVersion(unSyncedItems, responseWordVersion);
+                PersistanceUtils.updateSibs(context);
+                return ResponseCode.PUT_NEW_WORDS;
+            }
+        } catch (NumberFormatException e) {
+            return ResponseCode.ERROR;
         }
         return ResponseCode.ERROR;
     }
 
-    public static ResponseCode syncNewWordsFromServer() throws IOException {
+    public static ResponseCode syncNewWordsFromServer(Context context) throws IOException {
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet request = new HttpGet(URL + "?do=getNewWords");
         final String response = httpclient.execute(request, new BasicResponseHandler());
@@ -68,7 +72,7 @@ public class WordSyncer {
 
             final List<SibOne> words = Arrays.asList(newWords);
             SibCollectionUtils.setAsSynced(words);
-            final int[] serverIds = PersistanceUtils.addWords(words);
+            final int[] serverIds = PersistanceUtils.addWords(words, context);
 
             if (sendCompletedSyncToServer(serverIds)) {
                 return ResponseCode.ADDED_NEW_WORDS;
@@ -98,9 +102,10 @@ public class WordSyncer {
      * ie: local has version 3, published max is v5. download v4 & v5 word packs
      *
      * @return response code from server sync
+     * @param context
      */
-    public static ResponseCode syncNewWordPacksFromServer() throws IOException {
-        final int maxVersion = SibCollectionUtils.getMaxVersion();
+    public static ResponseCode syncNewWordPacksFromServer(Context context) throws IOException {
+        final int maxVersion = SibCollectionUtils.getMaxVersion(context);
 
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet request = new HttpGet(URL + "?do=getNewWordPacks&v=" + maxVersion);
@@ -111,7 +116,7 @@ public class WordSyncer {
 
             final List<SibOne> words = Arrays.asList(newWords);
             SibCollectionUtils.setAsSynced(words);
-            PersistanceUtils.addWords(words);
+            PersistanceUtils.addWords(words, context);
 
             return ResponseCode.ADDED_NEW_WORDS;
         }

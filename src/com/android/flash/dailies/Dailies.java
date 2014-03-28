@@ -1,6 +1,7 @@
 package com.android.flash.dailies;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -12,7 +13,6 @@ import com.android.flash.game.Game;
 import com.android.flash.game.GameType;
 import com.android.flash.util.Fconstant;
 import com.android.flash.util.PersistanceUtils;
-import com.android.flash.util.Serializer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -50,16 +50,17 @@ public class Dailies extends Activity {
         streakView = (TextView) findViewById(R.id.streak);
         historyView = (TextView) findViewById(R.id.history);
 
-        if (COORDINATOR.isFinished()) {
+        final Context context = getApplicationContext();
+        if (COORDINATOR.isFinished(context)) {
             super.finish();
         } else {
 
             if (myGame == null) {
                 //no game made yet, create one
-                restartGame(GameType.DAILIES);
+                restartGame(GameType.DAILIES, context);
             } else {
                 //just initialize the page with the current game
-                restartGame(GameType.INIT);
+                restartGame(GameType.INIT, context);
             }
         }
 
@@ -67,11 +68,9 @@ public class Dailies extends Activity {
     }
 
     private void initAds() {
-        //todo make this actually work
         AdView mAdView = new AdView(this);
         mAdView.setAdUnitId(Data.ADMOBID.toString());
         mAdView.setAdSize(AdSize.BANNER);
-        //mAdView.setAdListener(new ToastAdListener(this));
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.ad);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -82,7 +81,7 @@ public class Dailies extends Activity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.correct:
-                COORDINATOR.completeWord(word, true);
+                COORDINATOR.completeWord(word, true, getApplicationContext());
                 if (myGame.wordsLeft() == 0) {
                     //switch activities to summary view
                     finish();
@@ -92,7 +91,7 @@ public class Dailies extends Activity {
                 break;
 
             case R.id.incorrect:
-                COORDINATOR.completeWord(word, false);
+                COORDINATOR.completeWord(word, false, getApplicationContext());
                 if (myGame.wordsLeft() == 0) {
                     //switch activities to summary view
                     finish();
@@ -141,15 +140,16 @@ public class Dailies extends Activity {
     /**
      * Restarts the game.  Multiple modes based on type for the style of game to be created.
      * @param type
+     * @param context
      */
-    private void restartGame(GameType type) {
+    private void restartGame(GameType type, Context context) {
         //set language
         int lang = Fconstant.SIBONE;
 
         if (type != GameType.INIT) {
-            ArrayList<SibOne> myItems = null;
-            myItems = PersistanceUtils.getSibOnesList();
-            myGame = new Game(myItems, type, lang, false);
+            ArrayList<SibOne> myItems;
+            myItems = PersistanceUtils.getSibOnesList(context);
+            myGame = new Game(myItems, type, lang, false, context);
         }
 
         //initialize the textfields

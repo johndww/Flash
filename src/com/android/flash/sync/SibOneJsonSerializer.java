@@ -30,9 +30,9 @@ public class SibOneJsonSerializer implements JsonSerializer<SibOne>, JsonDeseria
     public SibOne deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = (JsonObject) json;
         final int serverId = jsonObject.get("id").getAsInt();
-        final int version = jsonObject.get("version").getAsInt();
         final String siboneName = jsonObject.get("sibone").getAsString();
         final String sibtwoName = jsonObject.get("sibtwo").getAsString();
+        final int version = jsonObject.get("version").getAsInt();
         final SibOne sibOne = new SibOne(siboneName, new SibTwo(sibtwoName), 0, serverId);
         sibOne.setVersion(version);
         return sibOne;

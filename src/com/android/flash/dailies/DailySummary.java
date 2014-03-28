@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.android.flash.R;
 import com.android.flash.SibOne;
-import com.android.flash.sibs.SibOneAdapter;
 
 import java.util.ArrayList;
 
@@ -19,13 +17,12 @@ import java.util.ArrayList;
 public class DailySummary extends ListActivity {
     ArrayList<SibOne> dailyWords;
     DailySummaryAdapter dailySummaryAdapter;
-    //int position;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //position = getIntent().getExtras().getInt("position");
-        dailyWords = DailyCoordinator.get().getDailyWords(true);
+        dailyWords = DailyCoordinator.get().getDailyWords(true, getApplicationContext());
 
         dailySummaryAdapter = new DailySummaryAdapter(this, dailyWords);
         setListAdapter(dailySummaryAdapter);

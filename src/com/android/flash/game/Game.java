@@ -2,6 +2,7 @@ package com.android.flash.game;
 
 import java.util.*;
 
+import android.content.Context;
 import com.android.flash.SibOne;
 import com.android.flash.dailies.DailyCoordinator;
 
@@ -19,17 +20,17 @@ public class Game {
     /**
      * Generates a new Game instances
      */
-    public Game(ArrayList<SibOne> myItems, GameType type, int lang, boolean verbs) {
+    public Game(ArrayList<SibOne> myItems, GameType type, int lang, boolean verbs, Context context) {
         remainingWords = new Stack<SibOne>();
         completedWords = new Stack<SibOne>();
-        startGame(myItems, type, lang, verbs);
+        startGame(myItems, type, lang, verbs, context);
     }
 
 
     /**
      * Populates & initializes a new game with deserialized data and shuffles
      */
-    public void startGame(ArrayList<SibOne> myItems, GameType type, int lang, boolean useVerbs) {
+    public void startGame(ArrayList<SibOne> myItems, GameType type, int lang, boolean useVerbs, Context context) {
 
         ArrayList<SibOne> words = new ArrayList<SibOne>();
         this.lang = lang;
@@ -99,11 +100,11 @@ public class Game {
 
                 //build a dailies game
                 case DAILIES:
-                    words = DailyCoordinator.get().getDailyWords(false);
+                    words = DailyCoordinator.get().getDailyWords(false, context);
                     break;
 
                 case DAILYPRACTICE:
-                    words = DailyCoordinator.get().getDailyWords(true);
+                    words = DailyCoordinator.get().getDailyWords(true, context);
                     break;
             }
         }
