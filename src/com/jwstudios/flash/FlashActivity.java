@@ -15,8 +15,7 @@ import com.jwstudios.flash.dailies.DailySummary;
 import com.jwstudios.flash.data.Data;
 import com.jwstudios.flash.game.PlayRandom;
 import com.jwstudios.flash.listwords.ListWords;
-import com.jwstudios.flash.sync.ResponseCode;
-import com.jwstudios.flash.sync.WordSyncer;
+import com.jwstudios.flash.sync.*;
 import com.jwstudios.flash.util.Fconstant;
 import com.jwstudios.flash.util.PersistanceUtils;
 import com.jwstudios.flash.util.SibCollectionUtils;
@@ -101,25 +100,21 @@ public class FlashActivity extends Activity {
             case R.id.sync_admin:
                 if (admin) {
                     final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords(context);
-                    try {
-                        final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems, context);
-                        final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer(context);
+//                        final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems, context);
+//                        final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer(context);
 
-                        Toast.makeText(context, "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        throw new RuntimeException("error communicating with server" + e);
-                    }
+                    final SyncParm parm = new SyncParm(unSyncedItems, context);
+                    new SyncNewWordsToServerTask().execute(parm);
+                    new SyncNewWordsFromServerTask().execute(parm);
+//
+//                        Toast.makeText(context, "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.sync:
-                try {
-                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer(context);
+//                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer(context);
 
-                    Toast.makeText(context, "From Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
-                }
-                catch (IOException e) {
-                    throw new RuntimeException("error communicating with server" + e);
-                }
+//                    Toast.makeText(context, "From Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
+                new SyncNewWordPacksFromServerTask().execute(new SyncParm(context));
 
                 break;
             case R.id.admin:
