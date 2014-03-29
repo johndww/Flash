@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.flash"
+    package="com.jwstudios.flash"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="11" />
 
     <application
         android:icon="@drawable/icon"
@@ -18,7 +18,7 @@
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version" />
         <activity
-            android:name=".FlashActivity"
+            android:name="com.jwstudios.flash.FlashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,13 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".dailies.Dailies" />
-        <activity android:name=".dailies.DailySummary" />
-        <activity android:name=".CreateItem" />
-        <activity android:name=".game.PlayRandom" />
-        <activity android:name=".listwords.ListWords" />
-        <activity android:name=".ViewWord" />
-        <activity android:name=".ViewVerbs" />
+        <activity android:name="com.jwstudios.flash.dailies.Dailies" />
+        <activity android:name="com.jwstudios.flash.dailies.DailySummary" />
+        <activity android:name="com.jwstudios.flash.CreateItem" />
+        <activity android:name="com.jwstudios.flash.game.PlayRandom" />
+        <activity android:name="com.jwstudios.flash.listwords.ListWords" />
+        <activity android:name="com.jwstudios.flash.ViewWord" />
+        <activity android:name="com.jwstudios.flash.ViewVerbs" />
         <activity
                 android:name="com.google.android.gms.ads.AdActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
