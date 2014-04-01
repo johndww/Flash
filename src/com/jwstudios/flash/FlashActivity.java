@@ -100,20 +100,13 @@ public class FlashActivity extends Activity {
             case R.id.sync_admin:
                 if (admin) {
                     final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords(context);
-//                        final ResponseCode resultToSyncAdds = WordSyncer.syncNewWordsToServer(unSyncedItems, context);
-//                        final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordsFromServer(context);
 
                     final SyncParm parm = new SyncParm(unSyncedItems, context);
                     new SyncNewWordsToServerTask().execute(parm);
                     new SyncNewWordsFromServerTask().execute(parm);
-//
-//                        Toast.makeText(context, "To Server: " + resultToSyncAdds.toString() + "\nFrom Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.sync:
-//                    final ResponseCode resultFromSyncAdds = WordSyncer.syncNewWordPacksFromServer(context);
-
-//                    Toast.makeText(context, "From Server: " + resultFromSyncAdds.toString(), Toast.LENGTH_LONG).show();
                 new SyncNewWordPacksFromServerTask().execute(new SyncParm(context));
 
                 break;

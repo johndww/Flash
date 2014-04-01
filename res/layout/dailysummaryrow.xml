@@ -11,7 +11,7 @@
             android:layout_marginLeft="4px"
             android:layout_marginRight="10px"
             android:layout_marginTop="4px"
-            android:src="@drawable/ic_launcher" >
+            android:src="@drawable/checkbox_off_background" >
     </ImageView>
     <TextView
             android:id="@+id/word_text_view"
