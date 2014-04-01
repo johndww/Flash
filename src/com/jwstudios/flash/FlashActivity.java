@@ -45,7 +45,37 @@ public class FlashActivity extends Activity {
 
         initDailyButton();
 
+        initSyncButton();
+
         initAds();
+    }
+
+    private void initSyncButton() {
+        final Button button = (Button) findViewById(R.id.sync);
+
+        if (SibCollectionUtils.wordCount(getApplicationContext()) == 0) {
+            alertNewUser();
+        }
+
+        // fire bg task to update the SYNC button based on server data
+        new CheckForNewWordsTask().execute(SyncParm.newBuilder().setContext(getApplicationContext()).setButton(button).build());
+    }
+
+    private void alertNewUser() {
+        // no words yet, should popup with sync now alert dialog
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Flash App");
+        builder1.setMessage(R.string.welcomeMessage);
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     private void initAds() {
@@ -101,13 +131,16 @@ public class FlashActivity extends Activity {
                 if (admin) {
                     final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords(context);
 
-                    final SyncParm parm = new SyncParm(unSyncedItems, context);
+                    final SyncParm parm = SyncParm.newBuilder().setContext(context).setWords(unSyncedItems).build();
                     new SyncNewWordsToServerTask().execute(parm);
                     new SyncNewWordsFromServerTask().execute(parm);
                 }
                 break;
             case R.id.sync:
-                new SyncNewWordPacksFromServerTask().execute(new SyncParm(context));
+                final Button button = (Button) findViewById(R.id.sync);
+                button.setText("SYNCING...");
+                button.setEnabled(false);
+                new SyncNewWordPacksFromServerTask().execute(SyncParm.newBuilder().setContext(context).setButton(button).build());
 
                 break;
             case R.id.admin:

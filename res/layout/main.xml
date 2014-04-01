@@ -89,12 +89,12 @@
         </RadioGroup>
     </RelativeLayout>
     <Button
-            android:layout_width="100dp"
+            android:layout_width="180dp"
             android:layout_height="50dp"
             android:text="SYNC"
             android:onClick="onClick"
-            android:id="@+id/sync" android:layout_gravity="center" android:textColor="#9c9a9b"
-            android:background="#ebebeb"/>
+            android:id="@+id/sync" android:layout_gravity="center" android:textColor="#09101a"
+            android:background="#eb6562" android:visibility="gone"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content">

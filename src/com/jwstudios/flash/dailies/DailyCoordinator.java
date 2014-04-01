@@ -1,8 +1,10 @@
 package com.jwstudios.flash.dailies;
 
 import android.content.Context;
+import android.util.Log;
 import com.jwstudios.flash.SibOne;
 import com.jwstudios.flash.util.PersistanceUtils;
+import com.jwstudios.flash.util.SibCollectionUtils;
 
 import java.util.*;
 
@@ -27,7 +29,8 @@ public class DailyCoordinator {
     }
 
     public boolean isFinished(Context context) {
-        return getDailyWords(false, context).size() == 0;
+        // no daily words left, and we have >0 words persisted
+        return getDailyWords(false, context).size() == 0 && SibCollectionUtils.wordCount(context) > 0;
     }
 
     public ArrayList<SibOne> getDailyWords(final boolean completed, Context context) {
@@ -51,7 +54,7 @@ public class DailyCoordinator {
 
             PersistanceUtils.updateSibs(context);
         } else {
-            throw new RuntimeException("Could not complete the word - didn't exist in dailies");
+            Log.w("DailyCoord", "Could not complete the word - didn't exist in dailies");
         }
     }
 

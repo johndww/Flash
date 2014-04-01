@@ -25,6 +25,10 @@ public class SibCollectionUtils {
        return unSyncedItems;
     }
 
+    public static int wordCount(final Context context) {
+        return PersistanceUtils.getSibOnesSet(context).size();
+    }
+
     public static void setAsSynced(Collection<SibOne> unSyncedItems) {
         for (final SibOne sibOne : unSyncedItems) {
             sibOne.setSynced();

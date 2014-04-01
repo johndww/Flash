@@ -41,6 +41,9 @@
     <string name="Dailies">Dailies</string>
     <string name="correct">Correct</string>
     <string name="incorrect">Incorrect</string>
+
+    <string name="welcomeMessage">Welcome to the Flash Telugu App!\n\nYou currently have no words. Press the \'SYNC\' button at the bottom of the page to start.\n\nComplete 10 daily words each day.  To \'move on\' from a word, you must answer it correctly 3 days in a row.\nH = Word Hits, S = Hit Streak\n\nNew words are added weekly. Check back in and SYNC to receive the new words.\nThey will not modify your current collection, only add to it.
+    </string>
     
 
 </resources>
