@@ -12,21 +12,19 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/input1"
+            android:id="@+id/dailyinput1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@+id/input1"
             android:textColor="#000000"
             android:textSize="30dp" >
         </TextView>
 
         <TextView
-            android:id="@+id/input2"
+            android:id="@+id/dailyinput2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@+id/input2"
             android:textColor="#000000"
             android:textSize="30dp" >
         </TextView>
@@ -62,45 +60,33 @@
         android:background="#1cff2e" android:layout_alignBottom="@+id/incorrect" android:layout_alignTop="@+id/incorrect"/>
 
     <TextView
-        android:id="@+id/remaining"
+        android:id="@+id/dailyremaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="@+id/remaining"
         android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="105dp" />
+        android:layout_marginTop="5dp" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/dailydate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/remaining"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="16dp"
-        android:text="@+id/date" />
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="57dp"
-            android:text="Finished"
-            android:id="@+id/finished" android:layout_alignParentLeft="true" android:layout_marginLeft="58dp"
-            android:layout_alignParentTop="true" android:layout_marginTop="90dp"
-            android:layout_alignRight="@+id/showhide" android:layout_above="@+id/date" android:visibility="gone"/>
+        android:layout_below="@+id/dailyremaining"
+            />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/streak"
-            android:id="@+id/streak"
-            android:layout_alignLeft="@+id/linearLayout1" android:layout_above="@+id/history"/>
+            android:id="@+id/dailystreak"
+            android:layout_below="@+id/dailydate"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/history"
-            android:id="@+id/history"
-            android:layout_alignLeft="@+id/linearLayout1" android:layout_above="@+id/date"/>
+            android:id="@+id/dailyhistory"
+            android:layout_below="@+id/dailystreak"/>
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:layout_alignParentLeft="true"
-            android:layout_above="@+id/incorrect" android:layout_marginBottom="15dp" android:id="@id/ad"
+            android:layout_above="@+id/incorrect" android:layout_marginBottom="15dp" android:id="@+id/dailyad"
             android:layout_centerHorizontal="true">
     </RelativeLayout>
 

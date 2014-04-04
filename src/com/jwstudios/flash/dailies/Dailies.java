@@ -43,12 +43,12 @@ public class Dailies extends Activity {
         initAds();
 
         //textfields that are updated on each button press
-        input1 = (TextView) findViewById(R.id.input1);
-        input2 = (TextView) findViewById(R.id.input2);
-        remaining = (TextView) findViewById(R.id.remaining);
-        dateView = (TextView) findViewById(R.id.date);
-        streakView = (TextView) findViewById(R.id.streak);
-        historyView = (TextView) findViewById(R.id.history);
+        input1 = (TextView) findViewById(R.id.dailyinput1);
+        input2 = (TextView) findViewById(R.id.dailyinput2);
+        remaining = (TextView) findViewById(R.id.dailyremaining);
+        dateView = (TextView) findViewById(R.id.dailydate);
+        streakView = (TextView) findViewById(R.id.dailystreak);
+        historyView = (TextView) findViewById(R.id.dailyhistory);
 
         final Context context = getApplicationContext();
         if (COORDINATOR.isFinished(context)) {
@@ -71,7 +71,7 @@ public class Dailies extends Activity {
         AdView mAdView = new AdView(this);
         mAdView.setAdUnitId(Data.ADMOBID.toString());
         mAdView.setAdSize(AdSize.BANNER);
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.ad);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.dailyad);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layout.addView(mAdView, params);

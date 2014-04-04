@@ -21,6 +21,7 @@ import com.jwstudios.flash.sibs.SibOneAdapter;
 import com.jwstudios.flash.sibs.SibTwoAdapter;
 import com.jwstudios.flash.sibs.SibTwoComparator;
 import com.jwstudios.flash.util.Fconstant;
+import com.jwstudios.flash.util.NotificationFactory;
 import com.jwstudios.flash.util.PersistanceUtils;
 
 import java.util.ArrayList;
@@ -110,34 +111,9 @@ public class ListWords extends ListActivity {
 	}
 	
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		String sibTwoName;
-		String sibOneName;
-		
-		switch(getIntent().getExtras().getInt("listtype")) {
-		case Fconstant.LISTTYPE_ENGALPH:
-			sibTwoName = myItemsSorted.get(position).getPair().getName();
-			Toast.makeText(getApplicationContext(), sibTwoName, Toast.LENGTH_SHORT)
-					.show();
-			break;
-		case Fconstant.LISTTYPE_TELALPH:
-			sibOneName = myItemsSorted.get(position).getName();
-			Toast.makeText(getApplicationContext(), sibOneName, Toast.LENGTH_SHORT)
-					.show();
-			break;
-		case Fconstant.LISTTYPE_ENGDATE:
-			sibTwoName = myItemsSorted.get(position).getPair().getName();
-			Toast.makeText(getApplicationContext(), sibTwoName, Toast.LENGTH_SHORT)
-					.show();
-			break;
-		case Fconstant.LISTTYPE_TELDATE:
-			sibOneName = myItemsSorted.get(position).getName();
-			Toast.makeText(getApplicationContext(), sibOneName, Toast.LENGTH_SHORT)
-					.show();
-			break;
-		default:
-			break;
-		}
-	}
+        final SibOne sibOne = myItemsSorted.get(position);
+        NotificationFactory.standardNotification(sibOne.getFullDescription(), "View Word", this);
+    }
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
@@ -165,10 +141,10 @@ public class ListWords extends ListActivity {
 					R.layout.editword, null);
 
 			EditText input1 = (EditText) dialog_layout
-					.findViewById(R.id.input1);
+					.findViewById(R.id.edit1);
 			input1.setText(myItemsSorted.get(info.position).getName());
 			EditText input2 = (EditText) dialog_layout
-					.findViewById(R.id.input2);
+					.findViewById(R.id.edit2);
 			input2.setText(myItemsSorted.get(info.position).getPair().getName());
 
 			alert.setView(dialog_layout)
@@ -191,8 +167,8 @@ public class ListWords extends ListActivity {
                                     final SibOne sibOne = myItemsSorted.get(info.position);
                                     int sibIndexMyItems = myItems.indexOf(sibOne);
 
-                                    final String sibOneName = ((EditText) dialog_layout.findViewById(R.id.input1)).getText().toString().trim();
-                                    final String sibTwoName = ((EditText) dialog_layout.findViewById(R.id.input2)).getText().toString().trim();
+                                    final String sibOneName = ((EditText) dialog_layout.findViewById(R.id.edit1)).getText().toString().trim();
+                                    final String sibTwoName = ((EditText) dialog_layout.findViewById(R.id.edit2)).getText().toString().trim();
 
                                     sibOne.setName(sibOneName);
                                     sibOne.getPair().setName(sibTwoName);

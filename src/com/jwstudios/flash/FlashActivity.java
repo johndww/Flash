@@ -16,6 +16,7 @@ import com.jwstudios.flash.data.Data;
 import com.jwstudios.flash.game.PlayRandom;
 import com.jwstudios.flash.listwords.ListWords;
 import com.jwstudios.flash.sync.*;
+import com.jwstudios.flash.util.NotificationFactory;
 import com.jwstudios.flash.util.Fconstant;
 import com.jwstudios.flash.util.PersistanceUtils;
 import com.jwstudios.flash.util.SibCollectionUtils;
@@ -23,7 +24,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
-import java.io.IOException;
 import java.util.Set;
 
 public class FlashActivity extends Activity {
@@ -43,6 +43,8 @@ public class FlashActivity extends Activity {
 
         setContentView(R.layout.main);
 
+        newUserAlerts();
+
         initDailyButton();
 
         initSyncButton();
@@ -50,32 +52,17 @@ public class FlashActivity extends Activity {
         initAds();
     }
 
+    private void newUserAlerts() {
+        if (SibCollectionUtils.wordCount(getApplicationContext()) == 0) {
+            NotificationFactory.standardNotification(R.string.welcomeMessage, "Flash App", this);
+        }
+    }
+
     private void initSyncButton() {
         final Button button = (Button) findViewById(R.id.sync);
 
-        if (SibCollectionUtils.wordCount(getApplicationContext()) == 0) {
-            alertNewUser();
-        }
-
         // fire bg task to update the SYNC button based on server data
         new CheckForNewWordsTask().execute(SyncParm.newBuilder().setContext(getApplicationContext()).setButton(button).build());
-    }
-
-    private void alertNewUser() {
-        // no words yet, should popup with sync now alert dialog
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Flash App");
-        builder1.setMessage(R.string.welcomeMessage);
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
     }
 
     private void initAds() {
@@ -170,25 +157,23 @@ public class FlashActivity extends Activity {
                 startActivity(intent);
                 break;
             case R.id.list_button:
-                intent = new Intent(this, ListWords.class);
-                RadioGroup lang = (RadioGroup) findViewById(R.id.lang);
-                RadioGroup sort = (RadioGroup) findViewById(R.id.sort);
-                switch (sort.getCheckedRadioButtonId()) {
-                    case R.id.alphabetical:
-                        if (lang.getCheckedRadioButtonId() == R.id.english) {
-                            intent.putExtra("listtype", Fconstant.LISTTYPE_ENGALPH);
+                final Intent listIntent = new Intent(this, ListWords.class);
+
+                final CharSequence seq[] = {"English", "Telugu"};
+                final DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        if (i == 0) {
+                            listIntent.putExtra("listtype", Fconstant.LISTTYPE_ENGALPH);
+
                         } else {
-                            intent.putExtra("listtype", Fconstant.LISTTYPE_TELALPH);
+                            listIntent.putExtra("listtype", Fconstant.LISTTYPE_TELALPH);
+
                         }
-                        break;
-                    case R.id.date:
-                        if (lang.getCheckedRadioButtonId() == R.id.english) {
-                            intent.putExtra("listtype", Fconstant.LISTTYPE_ENGDATE);
-                        } else {
-                            intent.putExtra("listtype", Fconstant.LISTTYPE_TELDATE);
-                        }
-                }
-                startActivity(intent);
+                        startActivity(listIntent);
+                    }
+                };
+                NotificationFactory.multipleChoicePopup("Sort by Language", seq, listener, this);
                 break;
         }
 

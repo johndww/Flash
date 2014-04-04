@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.jwstudios.flash.SibOne;
+import com.jwstudios.flash.util.NotificationFactory;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,6 @@ public class DailySummary extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //position = getIntent().getExtras().getInt("position");
         dailyWords = DailyCoordinator.get().getDailyWords(true, getApplicationContext());
 
         dailySummaryAdapter = new DailySummaryAdapter(this, dailyWords);
@@ -32,10 +32,6 @@ public class DailySummary extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        //String sibTwoName = myItems.get(position).getPair().getName();
-
-        String sibTwoName = dailyWords.get(position).getPair().getName();
-        Toast.makeText(getApplicationContext(), sibTwoName, Toast.LENGTH_SHORT)
-                .show();
+        NotificationFactory.standardNotification(dailyWords.get(position).getFullDescription(), "View Word", this);
     }
 }

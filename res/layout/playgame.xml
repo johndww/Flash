@@ -139,7 +139,7 @@
             android:id="@+id/lang_tel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/telugu" />
+            android:text="@string/telugu"/>
     </RadioGroup>
 
     <CheckBox

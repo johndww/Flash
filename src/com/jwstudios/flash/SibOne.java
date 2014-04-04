@@ -161,4 +161,8 @@ public class SibOne
             this.dailyStreak = 0;
         }
     }
+
+    public String getFullDescription() {
+        return String.format("English: %s\nTelugu: %s", this.name, this.sibTwo.getName());
+    }
 }
