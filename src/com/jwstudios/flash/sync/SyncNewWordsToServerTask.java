@@ -27,9 +27,9 @@ public class SyncNewWordsToServerTask extends AsyncTask<SyncParm, Integer, Long>
             this.context = context;
             final Set<SibOne> wordsToSync = parm.getWords();
             try {
-                WordSyncer.syncNewWordsToServer(wordsToSync, context);
+                this.responseCode = WordSyncer.syncNewWordsToServer(wordsToSync, context);
             } catch (IOException e) {
-                responseCode = ResponseCode.ERROR;
+                this.responseCode = ResponseCode.ERROR;
             }
         }
         return 1L;

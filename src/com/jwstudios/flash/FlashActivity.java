@@ -114,15 +114,15 @@ public class FlashActivity extends Activity {
 
         final Context context = getApplicationContext();
         switch (v.getId()) {
-            case R.id.sync_admin:
-                if (admin) {
-                    final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords(context);
-
-                    final SyncParm parm = SyncParm.newBuilder().setContext(context).setWords(unSyncedItems).build();
-                    new SyncNewWordsToServerTask().execute(parm);
-                    new SyncNewWordsFromServerTask().execute(parm);
-                }
-                break;
+//            case R.id.sync_admin:
+//                if (admin) {
+//                    final Set<SibOne> unSyncedItems = SibCollectionUtils.getUnSyncedWords(context);
+//
+//                    final SyncParm parm = SyncParm.newBuilder().setContext(context).setWords(unSyncedItems).build();
+//                    new SyncNewWordsToServerTask().execute(parm);
+//                    new SyncNewWordsFromServerTask().execute(parm);
+//                }
+//                break;
             case R.id.sync:
                 final Button button = (Button) findViewById(R.id.sync);
                 button.setText("SYNCING...");
@@ -130,11 +130,11 @@ public class FlashActivity extends Activity {
                 new SyncNewWordPacksFromServerTask().execute(SyncParm.newBuilder().setContext(context).setButton(button).build());
 
                 break;
-            case R.id.admin:
-                if (!admin) {
-                    secretAdminAttempt();
-                }
-                break;
+//            case R.id.admin:
+//                if (!admin) {
+//                    secretAdminAttempt();
+//                }
+//                break;
             case R.id.dailies:
                 final boolean finished = DailyCoordinator.get().isFinished(context);
                 if (finished) {
@@ -229,8 +229,8 @@ public class FlashActivity extends Activity {
     private void loginSuccess() {
         this.admin = true;
         this.adminFailedAttempts = 0;
-        final Button sync = (Button) findViewById(R.id.sync_admin);
-        sync.setVisibility(View.VISIBLE);
+//        final Button sync = (Button) findViewById(R.id.sync_admin);
+//        sync.setVisibility(View.VISIBLE);
     }
 
     private void loginFailure() {
