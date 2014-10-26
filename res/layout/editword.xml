@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/input1"
+        android:id="@+id/edit1"
         android:inputType="text"
         android:hint="@+string/engwordhint"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
     </EditText>
 
     <EditText
-        android:id="@+id/input2"
+        android:id="@+id/edit2"
         android:inputType="text"
         android:hint="@+string/telwordhint"
         android:layout_width="match_parent"
