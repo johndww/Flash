@@ -1,0 +1,18 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.13.2'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
