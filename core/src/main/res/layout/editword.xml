@@ -5,24 +5,22 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/edit1"
+        android:id="@+id/edit_input1"
         android:inputType="text"
         android:hint="@+string/engwordhint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:selectAllOnFocus="true"
-        android:text="@+id/input1" >
+        android:selectAllOnFocus="true">
 
         <requestFocus />
     </EditText>
 
     <EditText
-        android:id="@+id/edit2"
+        android:id="@+id/edit_input2"
         android:inputType="text"
         android:hint="@+string/telwordhint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:selectAllOnFocus="true"
-        android:text="@+id/input2" />
+        android:selectAllOnFocus="true" />
 
 </LinearLayout>

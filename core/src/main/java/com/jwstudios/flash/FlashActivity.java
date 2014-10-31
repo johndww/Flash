@@ -19,23 +19,30 @@ import com.jwstudios.flash.util.SibCollectionUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
-public class FlashActivity extends Activity {
+public class FlashActivity
+        extends Activity {
 
     /**
      * Home page for the Flash App
      */
     private static final int REQUEST_CREATE = 10;
+    public static final String COM_JWSTUDIOS_FLASH = "com.jwstudios.flash";
 
     public boolean admin = false;
     public int adminTryCount = 0;
@@ -54,6 +61,23 @@ public class FlashActivity extends Activity {
         initSyncButton();
 
         initAds();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the options menu from XML
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        final ComponentName componentName = new ComponentName(COM_JWSTUDIOS_FLASH, COM_JWSTUDIOS_FLASH + ".search.SearchableActivity");
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void newUserAlerts() {
@@ -252,10 +276,10 @@ public class FlashActivity extends Activity {
             if (requestCode == REQUEST_CREATE) {
                 if (data.hasExtra("item1") && data.hasExtra("item2")) {
                     // process the two strings returned
-                    PersistanceUtils.addPair(data.getExtras().getString("item1"), data.getExtras().getString("item2"), getApplicationContext());
+                    final boolean success = PersistanceUtils.addPair(data.getExtras().getString("item1"), data.getExtras().getString("item2"), getApplicationContext());
 
                     Toast.makeText(getApplicationContext(),
-                            R.string.item_created, Toast.LENGTH_SHORT).show();
+                            success ? R.string.item_created : R.string.alreadyexists, Toast.LENGTH_SHORT).show();
                 }
             }
         }

@@ -12,7 +12,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/input1"
+            android:id="@+id/game_input1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -22,7 +22,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/input2"
+            android:id="@+id/game_input2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -143,7 +143,7 @@
     </RadioGroup>
 
     <CheckBox
-        android:id="@+id/verbs"
+        android:id="@+id/game_verbs_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/restart"

@@ -1,5 +1,10 @@
 package com.jwstudios.flash;
 
+import java.util.List;
+import java.util.UUID;
+
+import com.jwstudios.flash.util.PersistanceUtils;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,124 +17,102 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.jwstudios.flash.util.PersistanceUtils;
 
-import java.util.ArrayList;
+public class ViewWord
+        extends Activity {
+    SibOne sibone;
 
-public class ViewWord extends Activity {
-	SibOne sibone;
-	int position;
-	ArrayList<SibOne> myItems;
-	ArrayList<SibOne> myVerbs;
-	private static final int REQUEST_ADDVERB = 25;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        setContentView(R.layout.viewsibone);
 
-		setContentView(R.layout.viewsibone);
+        final String uuid = getIntent().getExtras().getString("uuid");
+        this.sibone = PersistanceUtils.getSibOnesMap(getApplicationContext()).get(UUID.fromString(uuid));
 
-		position = getIntent().getExtras().getInt("position");
-        myItems = PersistanceUtils.getSibOnesList(getApplicationContext());
-		sibone = myItems.get(position);
+        ((TextView) findViewById(R.id.EngWord)).setText(sibone.getName());
+        ((TextView) findViewById(R.id.TelWord)).setText(sibone.getPair()
+                .getName());
 
-		((TextView) findViewById(R.id.EngWord)).setText(sibone.getName());
-		((TextView) findViewById(R.id.TelWord)).setText(sibone.getPair()
-				.getName());
+        List<SibOne> myVerbs = this.sibone.getPair().getVerbs();
 
-		myVerbs = sibone.getPair().getVerbs();
+        if (myVerbs != null) {
 
-		if (myVerbs != null) {
+            LinearLayout layout = (LinearLayout) findViewById(R.id.verbs);
 
-			LinearLayout layout = (LinearLayout) findViewById(R.id.verbs);
+            LayoutInflater vi = (LayoutInflater) getApplicationContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			LayoutInflater vi = (LayoutInflater) getApplicationContext()
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            for (final SibOne myVerb : myVerbs) {
+                // inflate the verb layout
 
-			//for (SibOne siboneverb : myVerbs) {
-			for (int i=0; i < myVerbs.size(); i++) {
-				// inflate the verb layout
+                View view = vi.inflate(R.layout.verb_layout, null);
 
-				View view = vi.inflate(R.layout.verb_layout, null);
-				//view.setTag(i);
-				
-				/**view.setOnLongClickListener(new View.OnLongClickListener() {
-					  public boolean onLongClick(View v) {
-					    //System.out.println(v.getTag());
-					    return true;
-					  }
-					});*/
-				
-				this.registerForContextMenu(view);
-				
+                this.registerForContextMenu(view);
 
-				TextView tmpEngVerb = (TextView) view
-						.findViewById(R.id.engverb);
-				TextView tmpTelVerb = (TextView) view
-						.findViewById(R.id.telverb);
-				// TextView tmpEngVerb = new TextView(getApplicationContext());
-				// TextView tmpTelVerb = new TextView(getApplicationContext());
+                TextView tmpEngVerb = (TextView) view
+                        .findViewById(R.id.engverb);
+                TextView tmpTelVerb = (TextView) view
+                        .findViewById(R.id.telverb);
 
-				tmpEngVerb.setText(myVerbs.get(i).getName());
-				tmpTelVerb.setText(myVerbs.get(i).getPair().getName());
+                tmpEngVerb.setText(myVerb.getName());
+                tmpTelVerb.setText(myVerb.getPair().getName());
 
-				// TableRow row = new TableRow(this);
-				// row.addView(view);
+                layout.addView(view);
+            }
+        }
+    }
 
-				layout.addView(view);
-				// layout.addView(tmpTelVerb);
-			}
-		}
-	}
-	
-	public void onResume() {
-		//LinearLayout layout = (LinearLayout) findViewById(R.id.verbs);
-		//layout.invalidate();
-		super.onResume();
-	}
-	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		//MenuInflater inflater = getMenuInflater();
-		//inflater.inflate(R.layout.verbmenu, menu);
-		menu.add(0, 0, 0, "View Verbs");
-	}
+    public void onResume() {
+        super.onResume();
+    }
 
-	public void onClick(View v) {
-		// do some validating to make sure they actually filled the fields
-		dofinish();
-	}
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, 0, 0, "View Verbs");
+    }
 
-	public void dofinish() {
-		// if the user entered some values, then send them back to the main
-		// activity
-		if (((EditText) findViewById(R.id.verb_eng)).getText().toString()
-				.trim().equals("")
-				|| ((EditText) findViewById(R.id.verb_tel)).getText()
-						.toString().trim().equals("")) {
-			setResult(RESULT_CANCELED);
-		} else {
-			Intent data = new Intent();
-			// Return some hard-coded values
-			data.putExtra("item1", ((EditText) findViewById(R.id.verb_eng))
-					.getText().toString());
-			data.putExtra("item2", ((EditText) findViewById(R.id.verb_tel))
-					.getText().toString());
-			data.putExtra("position", position);
-			setResult(REQUEST_ADDVERB, data);
-		}
-		super.finish();
-	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		//Intent to ViewVerbs.class
-		Intent intent = new Intent(this, ViewVerbs.class);
-		intent.putExtra("position", position);
-		startActivity(intent);
-		return super.onContextItemSelected(item);
+    public void onClick(View v) {
+        // do some validating to make sure they actually filled the fields
+        final String verbSibOneName = ((EditText) findViewById(R.id.verb_eng))
+                .getText().toString();
+        final String verbSibTwoName = ((EditText) findViewById(R.id.verb_tel))
+                .getText().toString();
 
-	}
+        if (!verbSibOneName
+                .trim().equals("")
+                && !verbSibTwoName.trim().equals("")) {
+            addVerb(verbSibOneName, verbSibTwoName, this.sibone.getUniqueId());
+        }
+        reload();
+    }
+
+    private void reload() {
+        finish();
+        startActivity(getIntent());
+    }
+
+    private void addVerb(final String verbSibOneName, final String verbSibTwoName, final UUID uuid) {
+        //add a verb (still need to check if the data is there
+        final SibOne sibOne = PersistanceUtils.getSibOnesMap(getApplicationContext()).get(uuid);
+
+        sibOne.getPair().addVerb(verbSibOneName, verbSibTwoName);
+
+        PersistanceUtils.updateSibs(getApplicationContext());
+
+        Intent intent = new Intent(this, ViewWord.class);
+        intent.putExtra("uuid", uuid.toString());
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //Intent to ViewVerbs.class
+        Intent intent = new Intent(this, ViewVerbs.class);
+        intent.putExtra("uuid", this.sibone.getUniqueId().toString());
+        startActivity(intent);
+        return super.onContextItemSelected(item);
+    }
 }

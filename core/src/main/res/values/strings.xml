@@ -23,6 +23,7 @@
     <string name="eng_vmeaning">English Verb Phrase</string>
     <string name="tel_vmeaning">Telugu Verb Conjugation</string>
     <string name="search_hint">Search Tel/Eng Word</string>
+    <string name="search">Search</string>
     <string name="app_label">Flash</string>
     <string name="nextword">Next Word</string>
     <string name="lastword">Last Word</string>
@@ -44,6 +45,7 @@
 
     <string name="welcomeMessage">Welcome to the Flash Telugu App!\n\nYou currently have no words. Press the \'SYNC\' button at the bottom of the page to start.\n\nComplete 10 daily words each day.  To \'move on\' from a word, you must answer it correctly 3 days in a row.\nH = Word Hits, S = Hit Streak\n\nNew words are added weekly. Check back in and SYNC to receive the new words.\nThey will not modify your current collection, only add to it.
     </string>
-    
+    <string name="alreadyexists">Word already exists</string>
+
 
 </resources>

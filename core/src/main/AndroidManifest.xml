@@ -36,12 +36,12 @@
         <activity
                 android:name="com.google.android.gms.ads.AdActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-        <activity android:name="com.jwstudios.flash.search.SearchActivity">
+        <activity android:name="com.jwstudios.flash.search.SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
             <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable"/>
+                       android:resource="@xml/searchable" />
         </activity>
     </application>
 

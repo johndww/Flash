@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import android.content.Context;
 import com.jwstudios.flash.SibOne;
 import com.jwstudios.flash.SibTwo;
+
+import android.content.Context;
 
 /**
  * User: johnwright
@@ -24,22 +25,35 @@ public class PersistanceUtils {
     public static boolean addPair(final String sibOneName, final String sibTwoName, Context context) {
         final SibOne sibOne = new SibOne(sibOneName, new SibTwo(sibTwoName), 0, 0);
 
+        if (alreadyExists(sibOne, context)) {
+            return false;
+        }
+
         final Map<UUID, SibOne> myItems = getSibOnesMap(context);
         myItems.put(sibOne.getUniqueId(), sibOne);
         save(myItems, context);
         return true;
     }
 
+    private static boolean alreadyExists(final SibOne sibOne, final Context context) {
+        final Set<SibOne> items = getSibOnesSet(context);
+        return items.contains(sibOne);
+    }
+
     public static int[] addWords(final Collection<SibOne> words, Context context) {
         final Map<UUID, SibOne> myItems = getSibOnesMap(context);
+        final Set<SibOne> myItemsSet = getSibOnesSet(context);
 
         int serverIds[] = new int[words.size()];
 
         int i = 0;
         for (final SibOne sibOne : words) {
-            myItems.put(sibOne.getUniqueId(), sibOne);
-            serverIds[i] = sibOne.getServerId();
-            i++;
+            // only add if we dont already have that word
+            if (!myItemsSet.contains(sibOne)) {
+                myItems.put(sibOne.getUniqueId(), sibOne);
+                serverIds[i] = sibOne.getServerId();
+                i++;
+            }
         }
         save(myItems, context);
         return serverIds;

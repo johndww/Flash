@@ -7,6 +7,7 @@ import java.util.Date;
 public class SibOne
         extends Item
         implements Serializable, Comparable<SibOne> {
+
     public final static SibOne EMPTY = new SibOne(true);
     private static final long serialVersionUID = 1L;
     private String name;
@@ -107,15 +108,13 @@ public class SibOne
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
-        SibOne sibOne = (SibOne) o;
+        final SibOne sibOne = (SibOne) o;
 
-        if (!date.equals(sibOne.date)) return false;
-        if (!name.equals(sibOne.name)) return false;
+        if (!name.equalsIgnoreCase(sibOne.name)) return false;
         if (!sibTwo.equals(sibOne.sibTwo)) return false;
 
         return true;
@@ -125,7 +124,6 @@ public class SibOne
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + sibTwo.hashCode();
-        result = 31 * result + date.hashCode();
         return result;
     }
 
@@ -164,5 +162,14 @@ public class SibOne
 
     public String getFullDescription() {
         return String.format("English: %s\nTelugu: %s", this.name, this.sibTwo.getName());
+    }
+
+    public String getShortDescription() {
+        return this.name + " / " + this.sibTwo.getName();
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " / " + this.getPair().getName();
     }
 }

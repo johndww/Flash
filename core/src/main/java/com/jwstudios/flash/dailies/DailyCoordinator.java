@@ -1,12 +1,18 @@
 package com.jwstudios.flash.dailies;
 
-import android.content.Context;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Set;
+
 import com.jwstudios.flash.SibOne;
 import com.jwstudios.flash.util.PersistanceUtils;
 import com.jwstudios.flash.util.SibCollectionUtils;
 
-import java.util.*;
+import android.content.Context;
+import android.util.Log;
 
 /**
  * User: johnwright
@@ -44,8 +50,7 @@ public class DailyCoordinator {
     }
 
     public void completeWord(final SibOne word, final boolean correct, Context context) {
-        if (dailyItems.remove(word)) {
-
+        if (this.dailyItems != null && this.dailyItems.remove(word)) {
             word.incrPlayCount(correct);
             word.setCompletedDaily(true);
             word.setCorrectToday(correct);
