@@ -1,15 +1,17 @@
 package com.jwstudios.flash;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.jwstudios.flash.data.Data;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import com.jwstudios.flash.data.Data;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 
 public class CreateItem
         extends Activity {
@@ -44,6 +46,7 @@ public class CreateItem
                     .getText().toString());
             data.putExtra("item2", ((EditText) findViewById(R.id.itemName2))
                     .getText().toString());
+            data.putExtra("suggested", ((CheckBox) findViewById(R.id.isSuggested)).isChecked());
             setResult(RESULT_OK, data);
         }
         super.finish();

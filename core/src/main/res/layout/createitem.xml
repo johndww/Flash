@@ -34,6 +34,11 @@
         android:onClick="onClick"
         android:text="@string/add_button" />
 
+    <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suggest words for app database"
+            android:id="@+id/isSuggested" android:layout_weight="0.03"/>
     <RelativeLayout
             android:gravity="center|bottom"
             android:layout_weight="1"

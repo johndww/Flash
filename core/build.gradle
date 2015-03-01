@@ -8,8 +8,8 @@ android {
     applicationId "com.jwstudios.flash"
     minSdkVersion 11
     targetSdkVersion 21
-    versionCode 1
-    versionName "1.0"
+    versionCode 5
+    versionName "1.4"
   }
   buildTypes {
     release {
@@ -22,6 +22,5 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile 'com.google.android.gms:play-services:4.2.42'
-//  compile "com.android.support:appcompat-v7:21.0.+"
   compile 'com.google.code.gson:gson:2.3'
 }

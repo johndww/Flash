@@ -1,5 +1,7 @@
 package com.jwstudios.flash;
 
+import java.util.Collections;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -10,6 +12,7 @@ import com.jwstudios.flash.data.Data;
 import com.jwstudios.flash.game.PlayRandom;
 import com.jwstudios.flash.listwords.ListWords;
 import com.jwstudios.flash.sync.CheckForNewWordsTask;
+import com.jwstudios.flash.sync.SuggestNewWordsToServerTask;
 import com.jwstudios.flash.sync.SyncNewWordPacksFromServerTask;
 import com.jwstudios.flash.sync.SyncParm;
 import com.jwstudios.flash.util.Fconstant;
@@ -42,7 +45,7 @@ public class FlashActivity
      * Home page for the Flash App
      */
     private static final int REQUEST_CREATE = 10;
-    public static final String COM_JWSTUDIOS_FLASH = "com.jwstudios.flash";
+    private static final String COM_JWSTUDIOS_FLASH = "com.jwstudios.flash";
 
     public boolean admin = false;
     public int adminTryCount = 0;
@@ -276,12 +279,27 @@ public class FlashActivity
             if (requestCode == REQUEST_CREATE) {
                 if (data.hasExtra("item1") && data.hasExtra("item2")) {
                     // process the two strings returned
-                    final boolean success = PersistanceUtils.addPair(data.getExtras().getString("item1"), data.getExtras().getString("item2"), getApplicationContext());
+                    final Bundle extras = data.getExtras();
+                    final String sibOneName = extras.getString("item1");
+                    final String sibTwoName = extras.getString("item2");
+                    final boolean isSuggested = extras.getBoolean("suggested");
+                    final boolean success = PersistanceUtils.addPair(sibOneName, sibTwoName, getApplicationContext());
+
+                    if (success && isSuggested) {
+                        suggestWordToServer(sibOneName, sibTwoName);
+                    }
 
                     Toast.makeText(getApplicationContext(),
                             success ? R.string.item_created : R.string.alreadyexists, Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
+    private void suggestWordToServer(final String sibOneName, final String sibTwoName) {
+        final SibOne word = new SibOne(sibOneName, new SibTwo(sibTwoName), 0, 0);
+        final SyncParm parm = SyncParm.newBuilder().setContext(getApplicationContext()).setWords(Collections
+                .singleton(word)).build();
+        new SuggestNewWordsToServerTask().execute(parm);
     }
 }

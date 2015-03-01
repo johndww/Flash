@@ -13,8 +13,10 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * @author john.wright
@@ -42,13 +44,20 @@ public class SearchableActivity
         final ArrayList<SibOne> sibs = PersistanceUtils.getSibOnesList(getApplicationContext());
         final ArrayList<SibOne> matches = new ArrayList<SibOne>();
         for (final SibOne sib : sibs) {
-            // this is probably really expensive. we should index this somehow? or actually learn regex...
+            //TODO this is probably really expensive. we should index this somehow? or actually learn regex...
             // actually, turns out with only 200 words, this is super cheap - no need to change yet
             final boolean hit = sib.getName().matches("(?i).*" + predicate + ".*")
                     || sib.getPair().getName().matches("(?i).*" + predicate + ".*");
             if (hit) {
                 matches.add(sib);
             }
+        }
+        if (matches.size() == 0) {
+            final Toast toast =
+                    Toast.makeText(getApplicationContext(), "No word found for " + predicate, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 50, 20);
+            toast.show();
+            finish();
         }
         setListAdapter(new SearchAdapter(this, R.layout.searchwords_row, matches));
         return matches;

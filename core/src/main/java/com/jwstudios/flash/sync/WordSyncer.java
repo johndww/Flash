@@ -1,12 +1,11 @@
 package com.jwstudios.flash.sync;
 
-import android.content.Context;
-import com.jwstudios.flash.SibOne;
-import com.jwstudios.flash.data.Data;
-import com.jwstudios.flash.util.PersistanceUtils;
-import com.jwstudios.flash.util.SibCollectionUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -16,11 +15,14 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.jwstudios.flash.SibOne;
+import com.jwstudios.flash.data.Data;
+import com.jwstudios.flash.util.PersistanceUtils;
+import com.jwstudios.flash.util.SibCollectionUtils;
+
+import android.content.Context;
 
 /**
  * @author john.wright
@@ -57,6 +59,32 @@ public class WordSyncer {
                 return ResponseCode.PUT_NEW_WORDS;
             }
         } catch (NumberFormatException e) {
+            return ResponseCode.ERROR;
+        }
+        return ResponseCode.ERROR;
+    }
+
+    public static ResponseCode suggestNewWordsToServer(final Set<SibOne> unSyncedItems)
+            throws IOException {
+        if (unSyncedItems.isEmpty()) {
+            return ResponseCode.NO_WORDS;
+        }
+        String jsonItems = GSON.toJson(unSyncedItems);
+        jsonItems = "{ \"sibs\": " + jsonItems + "}";
+
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(URL + "?do=suggestWords");
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+        nameValuePairs.add(new BasicNameValuePair("words", jsonItems));
+        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+        // Execute HTTP Post Request
+        String response = httpclient.execute(httppost, new BasicResponseHandler());
+        try {
+            if (response.equals("Word Suggested")) {
+                return ResponseCode.SUCCESS;
+            }
+        } catch (Exception e) {
             return ResponseCode.ERROR;
         }
         return ResponseCode.ERROR;
